@@ -8,13 +8,16 @@ function setSoundSys(){
   fft.setInput(mic);
 }
 //==========================================
+let sz=500;
+//==========================================
 let cublings=[];
 let numb=36;
+let cubeD=Math.PI*sz*0.4/(numb*2)
 function makePos(){
   for (let i=0; i<numb;i++){
     let ang=map(i,0,numb,360,0);
-    let x=300*cos(ang);
-    let z=300*sin(ang);
+    let x=sz*0.4*cos(ang);
+    let z=sz*0.4*sin(ang);
     //let y=map(z,-50,50,-25,25);
     let y=0;
     let angg=(ang)*TWO_PI/360;
@@ -28,13 +31,13 @@ function makePos(){
       'offset':0
     });
   }
-  
+
 }
 //--------------
 function rotSpec(modee,cubescene){
   for (let i=0; i<numb; i++){
     let ind=floor(i*spec.length*0.8/numb);
-    let h=25+spec[ind]*800/255;
+    let h=25+spec[ind]*sz*0.5/255;
     strokeWeight(0.8);
     stroke(0,0,0,200);
     let off=floor((i+frameCount)%numb);
@@ -45,14 +48,14 @@ function rotSpec(modee,cubescene){
     fill(map(cublings[i].offset,0,numb,0,360),100,100,100);
     if (modee==1){
       cuboidP(
-        27,cublings[i].val,27,//l,h,b
+        cubeD,cublings[i].val,cubeD,//l,h,b
         [cublings[i].x,cublings[i].y,cublings[i].z],
         cublings[i].rot,
         cubescene);
       }
     else{
       cuboidV(
-        [27,cublings[i].val,27],
+        [cubeD,cublings[i].val,cubeD],
         [cublings[i].x,cublings[i].y,cublings[i].z],
         true//digitizee
         );
@@ -61,7 +64,6 @@ function rotSpec(modee,cubescene){
   }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-let sz=500;
 let scl=50;
 let rows=Math.floor(sz*1.5/scl),cols=Math.floor(sz*1.5/scl);
 let terrain=[];

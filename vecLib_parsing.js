@@ -1,17 +1,31 @@
 function vec2arr(vecObj){
-  if(vecObj){
-    let arr=[vecObj.x,vecObj.y,vecObj.z];
-    if (vecObj.w){arr.push(vecObj.w);}
+  if(typeof(vecObj)=='object'){
+    let dim=Object.keys(vecObj).length;
+    let ind=['x','y','z','w'];
+    let arr=[];
+    for(let i=0;i<min(dim,4);i++){arr.push(vecObj[ind[i]]);}
+    for(let j=4;j<dim;j++){
+      let indx='d'+j;
+      arr.push(vecObj[indx]);
+    }
     return arr;
   }
   else{return [];}
 }
 function arr2vec(arr){
-  return vecG(arr[0],arr[1],arr[2],arr[3])
+  let ind=['x','y','z','w'];//till 4 d
+  let v={};
+  for (let i=0;i<min(arr.length,4);i++){v[ind[i]]=arr[i];}
+  for (let j=4;j<arr.length;j++){
+    let indx='d'+j;
+    v[indx]=arr[j];
+  }
+  return v;
 }
 //---------------------------
-function vecG(x,y,z,w){
+function vec4(x,y,z,w){
   let v=vec3(x,y,z);
+  v.w=0;
   if(w){v.w=w;}
   return v;
 }

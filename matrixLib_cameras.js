@@ -1,11 +1,12 @@
 //coordinates in screen system.
-function intrinsicM(fx,fy,px,py){
-  let fx_=1,fy_=1,px_=0,py_=0;
+function intrinsicM(fx,fy,px,py,skew){
+  let fx_=1,fy_=1,px_=0,py_=0,s=0;
   if(fx){fx_=fx;fy_=fx;}
   if(fy){fy_=fy;}
   if(px){px_=px;py=px_;}
   if(py){py_=py;}
-  return [[fx_,0,px_],[0,fy_,py_],[0,0,1]];
+  if(skew){s=skew;}
+  return [[fx_,s,px_],[0,fy_,py_],[0,0,1]];
 }
 function poseM(CamRot,CamCenter){
   let CamC=nullMatrix(3,1);
