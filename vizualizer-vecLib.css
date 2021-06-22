@@ -4,16 +4,9 @@ html, body {
 	padding: 0;
 	background:#010118;
 	color:#FFF;
-	font-size:15px;
-	font-family:monospace;
 }
 div{margin:1%;}
-b{
-padding:2px;
-font-weight:100px;
-font-size:20px;
-}
-div.controlset{
+div.controlset,div.flex{
 	display:flex;
 	overflow:auto;
 }

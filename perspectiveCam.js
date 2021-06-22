@@ -1,4 +1,3 @@
-let cam=identityMatrix(4);//null; nullMatrix();//
 let cen,orn,foc,poff,skewP;
 let camCX,camCY,camCZ;
 let camRotX,camRotY,camRotZ;

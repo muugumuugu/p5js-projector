@@ -149,9 +149,9 @@ function solidV(faces,styles,closeit){
 function triangleV(points,clr,cnv){
 	let p5inst=cnv;
 	//
-	let pts=arrCopy(points);
-	if (globalTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],globalT);}}
-	if (cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],cam);}}
+	let pts=arrCopy(points);}
+	if (globalTupd){for(let i=0; i<3;i++){pts.[i]=vecTransform(pts[i],globalT);}}
+	if (cam){for(let i=0; i<3;i++){pts.[i]=vecTransform(pts[i],cam);}}
 	//
 	if (p5inst){
 		if (clr){p5inst.fill(clr);}
@@ -175,9 +175,9 @@ function triangleV(points,clr,cnv){
 	return area;
 }
 function circleV(points,clr,fac,cnv){
-	let pts=arrCopy(points);
-	if (globalTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],globalT);}}
-	if (cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],cam);}}
+	let pts=arrCopy(points);}
+	if (globalTupd){for(let i=0; i<3;i++){pts.[i]=vecTransform(pts[i],globalT);}}
+	if (cam){for(let i=0; i<3;i++){pts.[i]=vecTransform(pts[i],cam);}}
 	//
 	let circinfo=circumscribe(pts[0],pts[1],pts[2]);
 	//

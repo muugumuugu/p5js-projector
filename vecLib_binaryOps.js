@@ -6,7 +6,7 @@ function vecSum(dat1,dat2,datset){
   if (Array.isArray(dat2)){vArr2=arrCopy(dat2);}
   else if (dat2){vArr2=vec2arr(dat2);}
   else{vArr2=[0,0,0];}
-  return arr2vec(arrSum(vArr1,vArr2))
+  return arr2vec(arrSum(vArr1,vArr2)) 
 }
 function vecDiff(dat1,dat2){
   let vArr1,vArr2;
@@ -15,7 +15,7 @@ function vecDiff(dat1,dat2){
   if (Array.isArray(dat2)){vArr2=arrCopy(dat2);}
   else if (dat2){vArr2=vec2arr(dat2);}
   else{vArr2=[0,0,0];}
-  return arr2vec(arrDiff(vArr1,vArr2))
+  return arr2vec(arrDiff(vArr1,vArr2)) 
 }
 //---------------------
 function vecCross(v1,v2){
@@ -36,9 +36,9 @@ function vecDot(dat1,dat2,datset){
   if (Array.isArray(dat1)){vArr1=arrCopy(dat1);}
   else{vArr1=vec2arr(dat1);}
   if (Array.isArray(dat2)){vArr2=arrCopy(dat2);}
-  else if(dat2){vArr2=vec2arr(dat2);}
+  else if(dat2){vArr2=vec2arr(dat2);} 
   else {vArr2=[1,1,1];}
-  return arr2vec(arrProd(vArr1,vArr2))
+  return arr2vec(arrProd(vArr1,vArr2)) 
 }
 function vecDotProd(dat1,dat2){
   let vArr1,vArr2;

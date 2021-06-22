@@ -1,30 +1,29 @@
-
-let globalT=tMatrix();
 //
 function resetScreen(){
-  globalT=tMatrix();
+  canvasT=tMatrix();
+  canvasTupd=false;
 }
 //
 function rotX(ang){
-  let mainM=matMult(minor(globalT,3,3),adjoint(rotMatrix('x',ang)));
-  globalT[0]=mainM[0];
-  globalT[1]=mainM[1];
-  globalT[2]=mainM[1];
-  return globalT;
+  let mainM=matMult(minor(canvasT,3,3),adjoint(rotMatrix('x',ang)));
+  canvasT[0]=mainM[0];
+  canvasT[1]=mainM[1];
+  canvasT[2]=mainM[1];
+  return canvasT;
 }
 function rotY(ang){
-  let mainM=matMult(minor(globalT,3,3),adjoint(rotMatrix('y',ang)));
-  globalT[0]=mainM[0];
-  globalT[1]=mainM[1];
-  globalT[2]=mainM[1];
-  return globalT;
+  let mainM=matMult(minor(canvasT,3,3),adjoint(rotMatrix('y',ang)));
+  canvasT[0]=mainM[0];
+  canvasT[1]=mainM[1];
+  canvasT[2]=mainM[1];
+  return canvasT;
 }
 function rotZ(ang){
-  let mainM=matMult(minor(globalT,3,3),adjoint(rotMatrix('z',ang)));
-  globalT[0]=mainM[0];
-  globalT[1]=mainM[1];
-  globalT[2]=mainM[1];
-  return globalT;
+  let mainM=matMult(minor(canvasT,3,3),adjoint(rotMatrix('z',ang)));
+  canvasT[0]=mainM[0];
+  canvasT[1]=mainM[1];
+  canvasT[2]=mainM[1];
+  return canvasT;
 }
 function rot(ax,ay,az){
   rotX(ax);
@@ -33,28 +32,28 @@ function rot(ax,ay,az){
 }
 //
 function scaleX(fac){
-  globalT[0][0]*=fac;
-  globalT[1][0]*=fac;
-  globalT[2][0]*=fac;
-  globalT[3][0]*=fac;
+  canvasT[0][0]*=fac;
+  canvasT[1][0]*=fac;
+  canvasT[2][0]*=fac;
+  canvasT[3][0]*=fac;
 }
 function scaleY(fac){
-  globalT[0][1]*=fac;
-  globalT[1][1]*=fac;
-  globalT[2][1]*=fac;
-  globalT[3][1]*=fac;
+  canvasT[0][1]*=fac;
+  canvasT[1][1]*=fac;
+  canvasT[2][1]*=fac;
+  canvasT[3][1]*=fac;
 }
 function scaleZ(fac){
-  globalT[0][2]*=fac;
-  globalT[1][2]*=fac;
-  globalT[2][2]*=fac;
-  globalT[3][2]*=fac;
+  canvasT[0][2]*=fac;
+  canvasT[1][2]*=fac;
+  canvasT[2][2]*=fac;
+  canvasT[3][2]*=fac;
 }
 //
 function trans(x,y,z){
-  globalT[3][0]+=x;
-  globalT[3][1]+=y;
-  globalT[3][2]+=z;
+  canvasT[3][0]+=x;
+  canvasT[3][1]+=y;
+  canvasT[3][2]+=z;
 }
 ////========
 //builtin systems

@@ -8,8 +8,6 @@ function setSoundSys(){
   fft.setInput(mic);
 }
 //==========================================
-let sz=500;
-//==========================================
 let cublings=[];
 let numb=36;
 let cubeD=Math.PI*sz*0.4/(numb*2)
@@ -31,7 +29,7 @@ function makePos(){
       'offset':0
     });
   }
-
+  
 }
 //--------------
 function rotSpec(modee,cubescene){

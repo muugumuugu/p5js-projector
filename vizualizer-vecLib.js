@@ -32,6 +32,7 @@ function draw() {
   //rotX(-3.6725);
   //rotSpec(0,Scene(4));
   terrainG(0,Scene(1),0);
+  //cuboidV([100,200,300],null,true)
 }
 //==========================================================================
 function keyPressed(){

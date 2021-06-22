@@ -9,7 +9,7 @@
 	<center>
 		<div class="title"> <b>~~~~~~~~~~ 3d Music Visualizers ~~~~~~~~~~</b> </div>
 		<div class="flex">
-			<div class="content"><a href="vizualizer-vecLib.html">PERSPECTIVE CAM -veclib</a></div>
+			<div class="content"><a href="vizualizer-vecLib.html">PERSPECTIVE CAM</a></div>
 			<div class="content"><a href="perspectiveCam.html">ISOMETRIC CAM</a></div>
 		</div>
 	</center>
