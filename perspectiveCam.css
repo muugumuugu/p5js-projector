@@ -1,0 +1,31 @@
+html, body {
+  width:100%;
+  margin: 0;
+  padding: 0;
+  background:#010118;
+  color:#FFF;
+}
+div{margin:1%;}
+div#camControls{
+  display:flex;
+  overflow:auto;
+}
+div#camControls div{
+  background:#000;
+  width:50%;
+  text-align:center;
+  border:dotted;
+  padding-top:5px;
+  padding-bottom:25px;
+}
+canvas {
+  background:#000;
+  border-style:double;
+  border-width: 5px;
+  padding:15px;
+  border-color:#caea5b;
+  display: block;
+}
+input{
+  width:75%;
+}
