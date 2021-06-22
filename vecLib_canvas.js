@@ -9,7 +9,7 @@ function vecPlot(vec,clr,stkwt,cnv){
 	let cors;
 	if (Array.isArray(vec)){cors=arr2vec(vec);}
 	else{cors=vec;}
-	if (globalTupd){vec=vecTransform(vec,globalT);}
+	if (canvasTupd){vec=vecTransform(vec,canvasT);}
 	if (cam){vec=vecTransform(vec,cam);}
 	if (cnv){
 		if (clr){cnv.stroke(clr);}
@@ -28,9 +28,9 @@ function vecConnect(vec1,vec2,clr,stkwt,cnv){
 	else {v1=vec1;}
 	if (Array.isArray(vec2)){v2=arr2vec(vec2);}
 	else {v2=vec2;}
-	if (globalTupd){
-		v1=vecTransform(v1,globalT);
-		v1=vecTransform(v1,globalT);
+	if (canvasTupd){
+		v1=vecTransform(v1,canvasT);
+		v1=vecTransform(v1,canvasT);
 	}
 	if (cam){
 		v1=vecTransform(v1,cam);
@@ -150,7 +150,7 @@ function triangleV(points,clr,cnv){
 	let p5inst=cnv;
 	//
 	let pts=arrCopy(points);
-	if (globalTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],globalT);}}
+	if (canvasTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],canvasT);}}
 	if (cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],cam);}}
 	//
 	if (p5inst){
@@ -176,7 +176,7 @@ function triangleV(points,clr,cnv){
 }
 function circleV(points,clr,fac,cnv){
 	let pts=arrCopy(points);
-	if (globalTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],globalT);}}
+	if (canvasTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],canvasT);}}
 	if (cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],cam);}}
 	//
 	let circinfo=circumscribe(pts[0],pts[1],pts[2]);

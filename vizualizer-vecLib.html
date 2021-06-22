@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head>
     <script src="p5.min.js"></script>
     <script src="p5.sound.min.js"></script>
-   <!-- 
+   <!--
 <script src="p5.min.js"></script>
     <script src="p5.sound.min.js"></script>
 -->
@@ -27,7 +27,10 @@
     <script src="positionLib_2Dprimitives.js"></script>
     <script src="positionLib_3Dprimitives.js"></script>
     <!---->
-    <script src="perspectiveCam.js"></script>
+    <script src="globalVars.js"></script>
+    <!---->
+    <script src="camTransControls.js"></script>
+    <script src="canvasTransControls.js"></script>
     <!---->
     <script src="viz.js"></script>
     <!---->
@@ -36,12 +39,13 @@
 
   </head>
   <body>
-    <div class="flex">
-      <div></div>
-        <div id="cnvs"></div>
-      <div></div>
+  <div class="flex">
+    <div class="ctrls">
+		<div class="canvasCtrls" id="canvasCtrls"></div>
+        <div class="camCtrls" id="camControls"></div>
     </div>
-    <div class="controlset" id="camControls"></div>
+    <div id="cnvs"></div>
+</div>
     <script src="vizualizer-vecLib.js"></script>
-  
+
 </body></html>

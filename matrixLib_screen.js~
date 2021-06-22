@@ -8,21 +8,21 @@ function rotX(ang){
   let mainM=matMult(minor(canvasT,3,3),transposed(rotMatrix('x',ang)));
   canvasT[0]=mainM[0];
   canvasT[1]=mainM[1];
-  canvasT[2]=mainM[2];
+  canvasT[2]=mainM[1];
   return canvasT;
 }
 function rotY(ang){
   let mainM=matMult(minor(canvasT,3,3),transposed(rotMatrix('y',ang)));
   canvasT[0]=mainM[0];
   canvasT[1]=mainM[1];
-  canvasT[2]=mainM[2];
+  canvasT[2]=mainM[1];
   return canvasT;
 }
 function rotZ(ang){
   let mainM=matMult(minor(canvasT,3,3),transposed(rotMatrix('z',ang)));
   canvasT[0]=mainM[0];
   canvasT[1]=mainM[1];
-  canvasT[2]=mainM[2];
+  canvasT[2]=mainM[1];
   return canvasT;
 }
 function rot(ax,ay,az){

@@ -27,7 +27,7 @@ function draw() {
   drawGrid(10,true,true);
   coorDisp();
   //---------------------
-
+  resetScreen()
   //---------------------
   spec=fft.analyze();
   //--------------------

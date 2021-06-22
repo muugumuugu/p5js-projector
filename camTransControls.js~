@@ -8,28 +8,28 @@ function camControls(){
   let intDM  =createDiv('');
   let intDs  =createDiv('');
   let extD  =createDiv('');
-  let intDt =createDiv('<b>intrinsic</b>');
-  let extDt =createDiv('<b>extrinsic</b>');
+  let intDt =createDiv("<b>camera's intrinsic settings</b>");
+  let extDt =createDiv("<b>camera's extrinsic settings</b>");
   let ornD =createDiv('orientation');
   let cenD =createDiv('positioning');
   let focD =createDiv('focal lengths');
-  let poffD=createDiv('principle axis offset');
+  let poffD=createDiv('p.axis offset');
   let skewD=createDiv('skew');
   orn  =createP();
   cen  =createP();
   foc  =createP();
   poff =createP();
   skewP=createP();
-  let lrx=createSpan('    ROT X\s');
-  let lry=createSpan('<br>ROT Y\s');
-  let lrz=createSpan('<br>ROT Z\s');
-  let lpx=createSpan('    POS X\s');
-  let lpy=createSpan('<br>POS Y\s');
-  let lpz=createSpan('<br>POS Z\s');
-  let lfx=createSpan('    foc X\s');
-  let lfy=createSpan('<br>foc Y\s');
-  let lpoffx=createSpan('    poff X\s');
-  let lpoffy=createSpan('<br>poff Y\s');
+  let lrx=createSpan('X&nbsp;');
+  let lry=createSpan('Y&nbsp;');
+  let lrz=createSpan('Z&nbsp;');
+  let lpx=createSpan('X&nbsp;');
+  let lpy=createSpan('Y&nbsp;');
+  let lpz=createSpan('Z&nbsp;');
+  let lfx=createSpan('X&nbsp;');
+  let lfy=createSpan('Y&nbsp;');
+  let lpoffx=createSpan('X&nbsp;');
+  let lpoffy=createSpan('Y&nbsp;');
   let lskew=createSpan('');
   camRotX=createSlider(-180       ,180       ,0);
   camRotY=createSlider(-180       ,180       ,0);
@@ -48,14 +48,14 @@ function camControls(){
   extD.parent(extDt);
   intDM.parent(intDt);
   intDs.parent(intDt);
-  intDs.style('width:100%');
+  intDs.style('width:450px;');
   //
   ornD.parent(extD);
   cenD.parent(extD);
   focD.parent(intDM);
   poffD.parent(intDM);
   skewD.parent(intDs);
-  skewD.style('width:100%;')
+  skewD.style('width:450px;')
   //
   orn.parent(ornD);
   cen.parent(cenD);
