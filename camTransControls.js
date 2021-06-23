@@ -125,10 +125,17 @@ function camControls(){
 	poffX.changed(updateviewCam);
 	poffY.changed(updateviewCam);
 	skew.changed(updateviewCam);
+	//
+	resetCamOb.mousePressed(resetCamOrn);
+	resetCamPb.mousePressed(resetCamPos);
+	resetCamFb.mousePressed(resetCamFoc);
+	resetCamPob.mousePressed(resetCamPoff);
+	resetCamSb.mousePressed(resetCamSkew);
+	//-----------------------------------------
 }
 //----------------------------------------------
 function updateviewCam(){
-	//=================
+	//====================================
 	let rx=camRotX.value()*Math.PI/180,ry=camRotY.value()*Math.PI/180,rz=camRotZ.value()*Math.PI/180;
 	let camR=rollpitchyaw([rx,ry,rz])
 	let rrx=nf(rx*180/Math.PI,3,1),rry=nf(ry*180/Math.PI,3,1),rrz=nf(rz*180/Math.PI,3,1);
@@ -147,39 +154,77 @@ function updateviewCam(){
 	foc.html('\t\[' + ffx +', '+ffy +'\]\t');
 	poff.html('\t\[' + ppx +', '+ppy +'\]\t');
 	skewP.html(nf(s,3,3));
-	//----------
+	//======================================
 	let camextr=poseM(camR,camC);
 	let camintr=intrinsicM(focx,focy,px,py,s);
-	//-----------
-	let camCurr=Camera(camintr,camextr);
-	//-----------
+	//-------------------------------------
+	//let camCurr=Camera(camintr,camextr);
 	//if(matEq(camCurr,cam)){return false;}
-	//-------------
-	cam=arrCopy(camCurr);
-	//=========================
-	//faces_[i][j]=vecTransform(faces[i][j],cam)
 	//return true;
+	//-------------------------------------
+	let camTemp=Camera(camintr,camextr);
+	if(matEq(camTemp,identityMatrix(4))){cam=null;}
+	else{cam=camTemp;}
+	//========================================
 }
-function resetCam(digi){
-	slidersReset(digi);
-}
-function slidersReset(digi){
-	if(digi){
-		camCX.value(-width/2);
-		camCY.value(-height/2);
-	}
-	else{
-		camCX.value(0);
-		camCY.value(0);
-	}
-	camCZ.value(0);
-	camRotX.value(0);
-	camRotY.value(0);
-	camRotZ.value(0);
-	fX.value(1);
-	fY.value(1);
-	poffX.value(0);
-	poffY.value(0);
-	skew.value(0);
+
+function resetCamOrn(){
+	camSlidersReset('o');
 	updateviewCam();
+}
+function resetCamPos(){
+	camSlidersReset('p');
+	updateviewCam();
+}
+function resetCamFoc(){
+	camSlidersReset('f');
+	updateviewCam();
+}
+function resetCamPoff(){
+	camSlidersReset('poff');
+	updateviewCam();
+}
+function resetCamSkew(){
+	camSlidersReset('s');
+	updateviewCam();
+}
+//--------------------------------------------------
+function resetcam(digi){
+	camSlidersReset('o',digi);
+	camSlidersReset('p',digi);
+	camSlidersReset('f',digi);
+	camSlidersReset('po',digi);
+	camSlidersReset('s',digi);
+	cam=null;
+}
+function camSlidersReset(option,digi){
+	switch (option){
+		case 'o':
+			camRotX.value(0);
+			camRotY.value(0);
+			camRotZ.value(0);
+			break;
+		case 'p':
+			if (digi){
+				camCX.value(width/2);
+				camCY.value(-height/2);
+			}
+			else{
+				camCX.value(0);
+				camCY.value(0);
+			}
+			camCZ.value(0);
+			break;
+		case  'f':
+			fX.value(1);
+			fY.value(1);
+			break;
+		case  'poff':
+			poffX.value(0);
+			poffY.value(0);
+			break;
+		case 's':
+			skew.value(0);
+			break;
+	}
 }

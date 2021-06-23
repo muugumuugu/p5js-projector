@@ -38,6 +38,6 @@ function draw() {
 }
 //==========================================================================
 function keyPressed(){
-    if      (key=='o'){resetCam();}
-    else if (key=='c'){resetCam(true);}
+    if      (key=='o'){resetcam();}
+    else if (key=='c'){resetsam(true);}
 }

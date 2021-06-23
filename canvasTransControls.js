@@ -143,6 +143,7 @@ function resetcanvas(digi){
 	cnvSlidersReset('r',digi);
 	cnvSlidersReset('s',digi);
 	cnvSlidersReset('t',digi);
+	resetScreen();
 }
 function cnvSlidersReset(option,digi){
 	switch (option){
