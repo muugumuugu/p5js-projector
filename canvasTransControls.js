@@ -2,7 +2,6 @@ let canvasC,canvasR, canvasS;
 let canvasTX,canvasTY,canvasTZ;
 let canvasRotX,canvasRotY,canvasRotZ;
 let canvasSclX,canvasSclY,canvasSclZ;
-let resetCanvasRb,resetCanvasCb,resetCanvasSb;
 //----------------------------------------------
 function canvasControls(){
 	let rotH =createDiv('<b>rotate system</b>');
@@ -31,19 +30,19 @@ function canvasControls(){
 	let lty=createDiv('Y');
 	let ltz=createDiv('Z');
 	//
-	canvasRotX=createSlider(-180       ,180       ,0);
-	canvasRotY=createSlider(-180       ,180       ,0);
-	canvasRotZ=createSlider(-180       ,180       ,0);
-	canvasTX  =createSlider(-width*0.5 ,width *1.5,0);
-	canvasTY  =createSlider(-height*0.5,height*1.5,0);
-	canvasTZ  =createSlider(0          ,depth     ,0);
+	canvasRotX=createSlider(-180       ,180       ,0,0.05);
+	canvasRotY=createSlider(-180       ,180       ,0,0.05);
+	canvasRotZ=createSlider(-180       ,180       ,0,0.05);
+	canvasTX  =createSlider(-width *2.5,width *2.5 ,0.1);
+	canvasTY  =createSlider(-height*2.5,height*2.5 ,0.1);
+	canvasTZ  =createSlider(-depth *2.5,depth *2.5 ,0.1);
 	canvasSclX=createSlider(-10        ,10        ,1,0.01);
 	canvasSclY=createSlider(-10        ,10        ,1,0.01);
 	canvasSclZ=createSlider(-10        ,10        ,1,0.01);
 	//
-	resetCanvasRb=createButton('reset');
-	resetCanvasSb=createButton('reset');
-	resetCanvasCb=createButton('reset');
+	let resetCanvasRb=createButton('reset');
+	let resetCanvasSb=createButton('reset');
+	let resetCanvasCb=createButton('reset');
 	//---------------------------------------------
 	rotH.parent(select('#canvasCtrls'));//lvl1
 	sclH.parent(select('#canvasCtrls'));
@@ -89,18 +88,23 @@ function canvasControls(){
 	canvasTY.parent(lty);
 	canvasTZ.parent(ltz);
 	//----------------------------------------
-	canvasRotX.changed(updateviewC);
-	canvasRotY.changed(updateviewC);
-	canvasRotZ.changed(updateviewC);
-	canvasSclX.changed(updateviewC);
-	canvasSclY.changed(updateviewC);
-	canvasSclZ.changed(updateviewC);
-	canvasTX.changed(updateviewC);
-	canvasTY.changed(updateviewC);
-	canvasTZ.changed(updateviewC);
+	canvasRotX.changed(updateviewCnvs);
+	canvasRotY.changed(updateviewCnvs);
+	canvasRotZ.changed(updateviewCnvs);
+	canvasSclX.changed(updateviewCnvs);
+	canvasSclY.changed(updateviewCnvs);
+	canvasSclZ.changed(updateviewCnvs);
+	canvasTX.changed(updateviewCnvs);
+	canvasTY.changed(updateviewCnvs);
+	canvasTZ.changed(updateviewCnvs);
+	//
+	resetCanvasRb.mousePressed(resetCnvRot);
+	resetCanvasSb.mousePressed(resetCnvScl);
+	resetCanvasCb.mousePressed(resetCnvTrns);
+	//-------------------------------
 }
 //----------------------------------------------
-function updateviewC(){
+function updateviewCnvs(){
 	//=================
 	let rx=canvasRotX.value()*Math.PI/180,ry=canvasRotY.value()*Math.PI/180,rz=canvasRotZ.value()*Math.PI/180;
 	let rrx=nf(rx*180/Math.PI,3,1),rry=nf(ry*180/Math.PI,3,1),rrz=nf(rz*180/Math.PI,3,1);
@@ -112,7 +116,7 @@ function updateviewC(){
 	canvasC.html(cx +'<br>'+cy +'<br>' +cz )
 	//-----------
 	let sx=canvasSclX.value(),sy=canvasSclY.value(),sz=canvasSclZ.value()
-	let ssx=nf(sx,3,1),ssy=nf(sy,3,1),ssz=nf(sz,3,1);
+	let ssx=nf(sx,2,2),ssy=nf(sy,2,2),ssz=nf(sz,2,2);
 	canvasS.html(ssx +'<br>'+ssy +'<br>' +ssz )
 	//----------
 	resetScreen()
@@ -121,26 +125,49 @@ function updateviewC(){
 	trans(tx,ty,tz);
 	canvasTupd=true;
 }
-function resetcanvas(digi){
-	slidersReset(digi);
+//--------------------------------------------------
+function resetCnvRot(){
+	cnvSlidersReset('r');
+	updateviewCnvs();
 }
-function slidersResetC(digi){
-	if(digi){
-		canvasTX.value(-width/2);
-		canvasTY.value(-height/2);
+function resetCnvScl(){
+	cnvSlidersReset('s');
+	updateviewCnvs();
+}
+function resetCnvTrns(){
+	cnvSlidersReset('t');
+	updateviewCnvs();
+}
+//--------------------------------------------------
+function resetcanvas(digi){
+	cnvSlidersReset('r',digi);
+	cnvSlidersReset('s',digi);
+	cnvSlidersReset('t',digi);
+}
+function cnvSlidersReset(option,digi){
+	switch (option){
+		case 'r':
+			canvasRotX.value(0);
+			canvasRotY.value(0);
+			canvasRotZ.value(0);
+			break;
+		case 't':
+			if (digi){
+				canvasTX.value(width/2);
+				canvasTY.value(-height/2);
+			}
+			else{
+				canvasTX.value(0);
+				canvasTY.value(0);
+			}
+			canvasTZ.value(0);
+			break;
+		case  's':
+			canvasSclX.value(1);
+			canvasSclY.value(1);
+			if (digi){
+				canvasSclY.value(-1);
+			}
+			canvasSclZ.value(1);
 	}
-	else{
-		canvasTX.value(0);
-		canvasTY.value(0);
-	}
-	canvasTZ.value(0);
-	canvasRotX.value(0);
-	canvasRotY.value(0);
-	canvasRotZ.value(0);
-	fX.value(1);
-	fY.value(1);
-	poffX.value(0);
-	poffY.value(0);
-	skew.value(0);
-	updateviewC();
 }

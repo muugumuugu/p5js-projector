@@ -2,6 +2,8 @@ html, body {
 	width:100%;
 	margin: 0;
 	padding: 0;
+	font-family:monospace;
+	font-size:16px;
 	background:#010118;
 	color:#FFF;
 }
@@ -14,37 +16,41 @@ canvas {
 	display: inline;
 }
 input{
-	width:180px;
+	width:230px;
+}
+p{
+	border:dotted;
+	margin-top:1px;
+	margin-bottom:5px;
 }
 div{
-margin:0px;
-padding:0px;
-text-align:center;
+	margin:0px;
+	padding:0px;
+	text-align:center;
 }
 div.flex{
-display:flex;
-flex-wrap:wrap;
+	display:flex;
+	flex-wrap:wrap;
 }
 
 div.ctrls{
-margin-right:20px;
-display:flex;
-overflow-y:scroll;
-overflow-x:hidden;
-width:850px;
-height:750px;
-
+	margin-right:10px;
+	display:flex;
+	overflow-y:scroll;
+	overflow-x:hidden;
+	width:910px;
+	height:750px;
 }
 div.camCtrls{
-margin-top:7px;
-width:450px;
-height:600px;
-margin-left:0px;
+	margin-top:7px;
+	width:600px;
+	height:600px;
+	margin-left:0px;
 }
 
 div.camCtrls div {
 	background:#000;
-	width:450px;
+	width:565px;
 	text-align:center;
 	border:ridge;
 	margin:1px;
@@ -54,7 +60,7 @@ div.camCtrls div {
 
 div.camCtrls div div{
 	display:flex;
-	width:450px;
+	width:560px;
 	border:none;
 	margin-bottom:0px;
 	padding-bottom:0px;
@@ -62,7 +68,7 @@ div.camCtrls div div{
 div.camCtrls div div div{
 	display:inline;
 	background:#000;
-	width:240px;
+	width:280px;
 	text-align:center;
 	border:groove;
 	border-color:gray;
@@ -84,7 +90,8 @@ div.canvasCtrls div{
 	overflow:hide;
 	width:85px;
 	padding:0px;
-	margin:7px;
+	margin-top:7px;
+	margin-left:7px;
 	height:600px;
 	border:groove;
 }
@@ -92,10 +99,12 @@ div.canvasCtrls #resetCnv{
 	background:transparent;
 	display:flex;
 	overflow:hide;
-	width:304px;
-	margin:3px;
+	width:291px;
+	padding:0px;
+	margin-top:0px;
+	margin-left:1px;
 	height:32px;
-
+	padding-left:5px;
 	border:none;
 }
 
@@ -105,23 +114,17 @@ div.canvasCtrls div  div{
 	width:85px;
 	border:none;
 	display:flex;
-}
-
-p{
-	border:dotted;
-	margin-top:1px;
-	margin-bottom:5px;
-}
-div.canvasCtrls div div{
 	height:20%
 }
 div.canvasCtrls #resetCnv div{
 	background:transparent;
-	padding:3px;
+	padding:4px;
 	border:ridge;
+	margin-left:13px;
+	margin-right:13px;
 	display:inline;
-	width:33.3%!important;
-	height:32px;
+	width:97px !important;
+	height:26px;
 
 }
 div.canvasCtrls div div div {
@@ -140,7 +143,7 @@ div.canvasCtrls div div div  input{
 button{
 	width:100%;
 	color:white;
-	border-radius: 25px;
+	border-radius: 20px;
 	text-shadow:0 0 10px #AAAAFF ,0 0 5px #2222FF;
 	background:transparent;
 	border:none;

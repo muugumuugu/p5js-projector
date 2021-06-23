@@ -8,74 +8,95 @@ function camControls(){
 	let intDM  =createDiv('');
 	let intDs  =createDiv('');
 	let extD  =createDiv('');
+	//
 	let intDt =createDiv("<b>camera's intrinsic settings</b>");
 	let extDt =createDiv("<b>camera's extrinsic settings</b>");
+	//
 	let ornD =createDiv('orientation');
 	let cenD =createDiv('positioning');
 	let focD =createDiv('focal lengths');
 	let poffD=createDiv('p.axis offset');
 	let skewD=createDiv('skew');
+	//
 	orn  =createP();
 	cen  =createP();
 	foc  =createP();
 	poff =createP();
 	skewP=createP();
+	//
 	let lrx=createSpan('X&nbsp;');
 	let lry=createSpan('Y&nbsp;');
 	let lrz=createSpan('Z&nbsp;');
+	let obH=createP('');//button holder.
 	let lpx=createSpan('X&nbsp;');
 	let lpy=createSpan('Y&nbsp;');
 	let lpz=createSpan('Z&nbsp;');
+	let pbH=createP('');
 	let lfx=createSpan('X&nbsp;');
 	let lfy=createSpan('Y&nbsp;');
+	let fbH=createP('');
 	let lpoffx=createSpan('X&nbsp;');
 	let lpoffy=createSpan('Y&nbsp;');
+	let pobH=createP('');
 	let lskew=createSpan('');
-	camRotX=createSlider(-180       ,180       ,0);
-	camRotY=createSlider(-180       ,180       ,0);
-	camRotZ=createSlider(-180       ,180       ,0);
-	camCX  =createSlider(-width*0.5 ,width *1.5,0);
-	camCY  =createSlider(-height*0.5,height*1.5,0);
-	camCZ  =createSlider(0          ,depth     ,0);
+	let sbH=createP('');
+	//
+	camRotX=createSlider(-180       ,180       ,0,0.05);
+	camRotY=createSlider(-180       ,180       ,0,0.05);
+	camRotZ=createSlider(-180       ,180       ,0,0.05);
+	camCX  =createSlider(-width*2 ,width *2 ,0);
+	camCY  =createSlider(-height*2,height*2 ,0);
+	camCZ  =createSlider(-depth*2 ,depth*2  ,0);
 	fX     =createSlider(  -2       ,2         ,1,0.001);
 	fY     =createSlider(  -2       ,2         ,1,0.001);
 	poffX  =createSlider(  -2       ,2         ,0,0.001);
 	poffY  =createSlider(  -2       ,2         ,0,0.001);
 	skew   =createSlider(  -2       ,2         ,0,0.001);
-	//---------------------------------------------
-	extDt.parent(select('#camControls'));
+	let resetCamOb=createButton('reset');
+	let resetCamPb=createButton('reset');
+	let resetCamFb=createButton('reset');
+	let resetCamPob=createButton('reset');
+	let resetCamSb=createButton('reset');
+	//------------------------------------------------------------------------
+	extDt.parent(select('#camControls'));//lvl1
 	intDt.parent(select('#camControls'));
-	extD.parent(extDt);
+	//...................
+	extD.parent(extDt);//lvl2
 	intDM.parent(intDt);
 	intDs.parent(intDt);
-	intDs.style('width:450px;');
-	//
-	ornD.parent(extD);
+	intDs.style('width:560px;');
+	//....................................
+	ornD.parent(extD);//lvl3
 	cenD.parent(extD);
 	focD.parent(intDM);
 	poffD.parent(intDM);
 	skewD.parent(intDs);
-	skewD.style('width:450px;')
-	//
-	orn.parent(ornD);
+	skewD.style('width:560px;')
+	//...............................
+	orn.parent(ornD);//lvl4
 	cen.parent(cenD);
 	foc.parent(focD);
 	poff.parent(poffD);
 	skewP.parent(skewD);
 	//
-	lrx.parent(ornD);
+	lrx.parent(ornD);//lvl4
 	lry.parent(ornD);
 	lrz.parent(ornD);
+	obH.parent(ornD);
 	lpx.parent(cenD);
 	lpy.parent(cenD);
 	lpz.parent(cenD);
+	pbH.parent(cenD);
 	lfx.parent(focD);
 	lfy.parent(focD);
+	fbH.parent(focD);
 	lpoffx.parent(poffD);
 	lpoffy.parent(poffD);
+	pobH.parent(poffD);
 	lskew.parent( skewD);
-	//
-	camRotX.parent(lrx);
+	sbH.parent( skewD);
+	//....................................
+	camRotX.parent(lrx);//lvl5
 	camRotY.parent(lry);
 	camRotZ.parent(lrz);
 	camCX.parent(lpx);
@@ -86,20 +107,27 @@ function camControls(){
 	poffX.parent(lpoffx);
 	poffY.parent(lpoffy);
 	skew.parent(lskew);
-	camRotX.changed(updateview);
-	camRotY.changed(updateview);
-	camRotZ.changed(updateview);
-	camCX.changed(updateview);
-	camCY.changed(updateview);
-	camCZ.changed(updateview);
-	fX.changed(updateview);
-	fY.changed(updateview);
-	poffX.changed(updateview);
-	poffY.changed(updateview);
-	skew.changed(updateview);
+	//
+	resetCamOb.parent(obH);
+	resetCamPb.parent(pbH);
+	resetCamFb.parent(fbH);
+	resetCamPob.parent(pobH);
+	resetCamSb.parent(sbH);
+	//-------------------------------------------
+	camRotX.changed(updateviewCam);
+	camRotY.changed(updateviewCam);
+	camRotZ.changed(updateviewCam);
+	camCX.changed(updateviewCam);
+	camCY.changed(updateviewCam);
+	camCZ.changed(updateviewCam);
+	fX.changed(updateviewCam);
+	fY.changed(updateviewCam);
+	poffX.changed(updateviewCam);
+	poffY.changed(updateviewCam);
+	skew.changed(updateviewCam);
 }
 //----------------------------------------------
-function updateview(){
+function updateviewCam(){
 	//=================
 	let rx=camRotX.value()*Math.PI/180,ry=camRotY.value()*Math.PI/180,rz=camRotZ.value()*Math.PI/180;
 	let camR=rollpitchyaw([rx,ry,rz])
@@ -109,7 +137,7 @@ function updateview(){
 	let cx=camCX.value(),cy=camCY.value(),cz=camCZ.value()
 	let camC=[cx,cy,cz];
 	let ccx=nf(cx,3,1),ccy=nf(cy,3,1),ccz=nf(cz,3,1);
-	cen.html('\t\[' + ccx +', '+ccy +', ' +ccz +'\]')
+	cen.html(ccx +', '+ccy +', ' +ccz)
 	//-----------
 	let focx=fX.value(),focy=fY.value();
 	let px=poffX.value(), py=poffY.value();
@@ -151,7 +179,7 @@ function slidersReset(digi){
 	fX.value(1);
 	fY.value(1);
 	poffX.value(0);
-	poffY.value(0);;
+	poffY.value(0);
 	skew.value(0);
-	updateview();
+	updateviewCam();
 }

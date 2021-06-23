@@ -19,8 +19,8 @@ function setup() {
   //-------------------------------
   camControls();
   canvasControls();
-  updateview();
-  updateviewC();
+  updateviewCam();
+  updateviewCnvs();
 }
 function draw() {
   background(0);
