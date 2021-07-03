@@ -64,14 +64,14 @@ function camControls(){
 	extD.parent(extDt);//lvl2
 	intDM.parent(intDt);
 	intDs.parent(intDt);
-	intDs.style('width:560px;');
+	intDs.style('width:540px;');
 	//....................................
 	ornD.parent(extD);//lvl3
 	cenD.parent(extD);
 	focD.parent(intDM);
 	poffD.parent(intDM);
 	skewD.parent(intDs);
-	skewD.style('width:560px;')
+	skewD.style('width:540px;')
 	//...............................
 	orn.parent(ornD);//lvl4
 	cen.parent(cenD);
@@ -159,12 +159,12 @@ function updateviewCam(){
 	let camintr=intrinsicM(focx,focy,px,py,s);
 	//-------------------------------------
 	//let camCurr=Camera(camintr,camextr);
-	//if(matEq(camCurr,cam)){return false;}
+	//if(matEq(camCurr,scene.cam)){return false;}
 	//return true;
 	//-------------------------------------
 	let camTemp=Camera(camintr,camextr);
-	if(matEq(camTemp,identityMatrix(4))){cam=null;}
-	else{cam=camTemp;}
+	if(matEq(camTemp,identityMatrix(4))){scene.cam=null;}
+	else{scene.cam=camTemp;}
 	//========================================
 }
 
@@ -193,9 +193,10 @@ function resetcam(digi){
 	camSlidersReset('o',digi);
 	camSlidersReset('p',digi);
 	camSlidersReset('f',digi);
-	camSlidersReset('po',digi);
+	camSlidersReset('poff',digi);
 	camSlidersReset('s',digi);
-	cam=null;
+	scene.cam=null;
+	updateviewCam();
 }
 function camSlidersReset(option,digi){
 	switch (option){

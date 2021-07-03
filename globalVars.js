@@ -1,5 +1,6 @@
-let cam=identityMatrix(4);//null; nullMatrix();//
-let canvasTupd=false;
-let canvasT=tMatrix();//identity matrix , canvas transforms.
+let scene=Scene();
 //--------------------------------------------------------------
 let sz=750;
+//--------------------------------------------------------------
+const VMODE=0;
+const PMODE=1;

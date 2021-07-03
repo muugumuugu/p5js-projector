@@ -123,7 +123,7 @@ function updateviewCnvs(){
 	rot(rx,ry,rz);
 	scaleCnvs(sx,sy,sz);
 	trans(tx,ty,tz);
-	canvasTupd=true;
+	scene.canvasTupd=true;
 }
 //--------------------------------------------------
 function resetCnvRot(){

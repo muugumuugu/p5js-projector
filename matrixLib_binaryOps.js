@@ -15,8 +15,9 @@ function arrProd(A1,A2,A,V){
     V.sort((a, b) => (Object.keys(a).length >Object.keys(b).length) ? -1 : 1)
     let res=V[0];
     for (let j=1; j<V.length;j++){
-      for (let i=0; i<Object.keys(V[i]).length;i++){
-        res[ii[i]]*=V[j][ii[i]];
+      for (let i=0; i<Object.keys(V[j]).length;i++){
+      	if(i<4){res[ii[i]]*=V[j][ii[i]];}
+      	else{res['d'+i]*=V[j]['d'+i];}
       }
     }
     return res;
@@ -45,7 +46,7 @@ function matMult(M1,M2){
     }
   }
   return prod;
-  
+
 }
 //=====================================
 function arrSum(A1,A2,A,V){
@@ -66,7 +67,8 @@ function arrSum(A1,A2,A,V){
     let res=V[0];
     for (let j=1; j<V.length;j++){
       for (let i=0; i<Object.keys(V[i]).length;i++){
-        res[ii[i]]+=V[j][ii[i]];
+        if(i<4){res[ii[i]]+=V[j][ii[i]];}
+      	else{res['d'+i]+=V[j]['d'+i];}
       }
     }
     return res;
