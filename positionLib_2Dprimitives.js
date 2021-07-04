@@ -1,24 +1,3 @@
-function regpoly(r,num,styles,rotns,centerP,placeit,plane,planeN,xdir,scene_){
-  let n=3;
-  if (num){n=num;}
-  let angadd=Math.PI/2-Math.PI/n;
-  let ptarr=[];
-  for (i=0; i<n ;i++){
-    let ang=i*2*Math.PI/n;
-    let vv=pol2cart(r,ang+angadd,planeN,xdir);
-    let v=new position([vv.x,vv.y,vv.z],scene_);
-    if (plane=='YZ'){v=new position([vv.z,vv.y,vv.x],scene_);}
-    else if (plane=='ZX'){v=new position([vv.y,vv.z,vv.x],scene_);}
-    if (rotns){v=v.rot(rotns);}
-    if (placeit){v.shiftO(placeit);}
-    v.digitize();
-   if (centerP){v.add(centerP);}
-   // (centerP){v.shiftModify(centerP);}
-    ptarr.push(v);
-  }
-  let dat=polyP(ptarr,styles,true,null);
-  return dat;
-}
 //
 function square_(side,style,rot,pos,cubie,scene_){
   let mid;
@@ -49,7 +28,7 @@ function square_(side,style,rot,pos,cubie,scene_){
         mid=[side*0.5,0,0];
         plane='YZ';
         break;
-    }    
+    }
   }
   regpoly(side/Math.sqrt(2),4,style,rot,mid,pos,plane,null,scene_);
 }

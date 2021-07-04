@@ -32,8 +32,8 @@ function draw() {
 	spec=fft.analyze();
 	//--------------------
 	//rotX(-3.6725);
-	//rotSpec(VMODE);
-	terrainG(VMODE,0);
+	rotSpec(VMODE);
+	//terrainG(VMODE,0);
 	//cuboidV([100,200,300],null,true)
 }
 //==========================================================================

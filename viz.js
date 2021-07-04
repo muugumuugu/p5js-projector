@@ -54,6 +54,7 @@ function rotSpec(modee){
 			cuboidV(
 				[cubeD,cublings[i].val,cubeD],
 				[cublings[i].x,cublings[i].y,cublings[i].z],
+				null,cublings[i].rot,
 				true//digitizee
 				);
 		}

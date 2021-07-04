@@ -62,7 +62,7 @@ function PhysProp(dimen){
 		'fricn':1};
 	return prop;
 }
-function Scene(mode,cam,cnvs,stretches,center){
+function Scene(mode,cam,cnvs,canvasT,stretches,center){
 		let cnvs_=null,mode_=0,cam_=null,center_=vec3(),stretches_=vec3(1,1,1),canvasTupd=false,canvasT_=tMatrix();
 		if(cnvs){cnvs_=cnvs;}
 		if(mode){mode_=mode;}
@@ -137,6 +137,18 @@ function applyTrans(pos,T){
 function rotAround(pos,v,ang){
 	let q=new Quaternion(v,ang);
 	return q.conjugation(pos).im;
+}
+//-------------
+function rotobjToQuat(rotor){
+	const xx=rotor.x/2;const yy=rotor.y/2;const zz=rotor.z/2;
+	const sx=Math.sin(xx);const sy=Math.sin(yy);const sz=Math.sin(zz);
+	const cx=Math.cos(xx);const cy=Math.cos(yy);const cz=Math.cos(zz);
+	return new Quaternion(vec4(
+		sx*cy*cz-cx*sy*sz,
+		cx*sy*cz+sx*cy*sz,
+		cx*cy*sz-sx*sy*cz,
+		cx*cy*cz+sx*sy*sz
+	));
 }
 //=============
 function homogenize(vecObj){

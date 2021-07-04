@@ -48,25 +48,25 @@ function vecConnect(vec1,vec2,clr,stkwt){
 	return vecDist(v1,v2);
 }
 //------------
-function polyV(arrpt,closeit,stylus,rotns){
-	let numvertices=arrpt.length;
+function polyV(arrpt,closeit,stylus,rotors){
 	let pen=Pen();
 	if(stylus){pen=stylus;}
 	let closer=0;
 	if(closeit){closer=1;}
 	let vertices=arrCopy(arrpt);
-	if(rotns){
-		if(Array.isArray(rotns)){for(let i=0; i<numvertices;i++){vertices[i]=vertices[i].rot(rotns[i]);}}
-	else{for(let i=0; i<numvertices;i++){vertices[i]=vertices[i].rot(rotns);}}
+	const numvertices=vertices.length;
+	if(rotors){
+		if(Array.isArray(rotors)){for(let i=0; i<numvertices;i++){vertices[i]=vecRotate(vertices[i],rotors[i]);}}
+		else{for(let i=0; i<numvertices;i++){vertices[i]=vecRotate(vertices[i],rotors);}}
 	}
 	//
 	if (pen.show.points){
 		for(let i=0; i<numvertices; i++){
 			let clr,stkwt;
-			if(pen.color.points.length>0){clr=pen.color.points[0];}
-			if(pen.color.points.length>1){clr=pen.color.points[i];}
-			if(pen.wt.points.length>0){stkwt=pen.wt.points[0];}
-			if(pen.wt.points.length>1){stkwt=pen.wt.points[i];}
+			if(!Array.isArray(pen.color.points.length)){clr=pen.color.points[0];}
+			else{clr=pen.color.points[i];}
+			if(!Array.isArray(pen.wt.points.length)){stkwt=pen.wt.points[0];}
+			else{stkwt=pen.wt.points[i];}
 			vecPlot(vertices[i],clr,stkwt);
 		}
 	}
@@ -82,8 +82,8 @@ function polyV(arrpt,closeit,stylus,rotns){
 		for(let i=0; i<(numvertices-1+closer); i++){
 			let clr;
 			let ngbr=vertices[(i+1)%numvertices];
-			if(pen.color.fill.length>0){clr=pen.color.fill[0];}
-			if(pen.color.fill.length>1){clr=pen.color.fill[i];}
+			if(!Array.isArray(pen.color.fill.length)){clr=pen.color.fill[0];}
+			else{clr=pen.color.fill[i];}
 			let pts=[vertices[i],ngbr,centroid];
 			area+=triangleV(pts,clr);
 		}
@@ -94,10 +94,10 @@ function polyV(arrpt,closeit,stylus,rotns){
 		for(let i=0; i<(numvertices-1+closer); i++){
 			let clr,stkwt;
 			let ngbr=vertices[(i+1)%numvertices];
-			if(pen.color.edges.length>0){clr=pen.color.edges[0];}
-			if(pen.color.edges.length>1){clr=pen.color.edges[i];}
-			if(pen.wt.edges.length>0){stkwt=pen.wt.edges[0];}
-			if(pen.wt.edges.length>1){stkwt=pen.wt.edges[i];}
+			if(!Array.isArray(pen.color.edges.length)){clr=pen.color.edges[0];}
+			else{clr=pen.color.edges[i];}
+			if(!Array.isArray(pen.wt.edges.length)){stkwt=pen.wt.edges[0];}
+			else{stkwt=pen.wt.edges[i];}
 			perimeter+=vecConnect(vertices[i],ngbr,clr,stkwt);
 		}
 	}
@@ -113,10 +113,10 @@ function tristripV(arrpt,closeit,stylus,rotns,rounded){
 	if (pen.show.points){
 		for (let j=0; j<(numvertices-1+closer);j++){
 			let clr,stkwt;
-			if(pen.color.points.length>0){clr=pen.color.points[0];}
-			if(pen.color.points.length>1){clr=pen.color.points[j];}
-			if(pen.wt.points.length>0){stkwt=pen.wt.points[0];}
-			if(pen.wt.points.length>1){stkwt=pen.wt.points[j];}
+			if(!Array.isArray(pen.color.points.length)){clr=pen.color.points[0];}
+			else{clr=pen.color.points[j];}
+			if(!Array.isArray(pen.wt.points.length)){stkwt=pen.wt.points[0];}
+			else{stkwt=pen.wt.points[j];}
 			vecPlot(vertices[j],clr,stkwt);
 		}
 	}
@@ -125,10 +125,10 @@ function tristripV(arrpt,closeit,stylus,rotns,rounded){
 			let clr,stkwt;
 			let ngbr1=vertices[(j+1)%numvertices];
 			let ngbr2=vertices[(j+2)%numvertices];
-			if(pen.color.edges.length>0){clr=pen.color.edges[0];}
-			if(pen.color.edges.length>1){clr=pen.color.edges[j];}
-			if(pen.wt.edges.length>0){stkwt=pen.wt.edges[0];}
-			if(pen.wt.edges.length>1){stkwt=pen.wt.edges[j];}
+			if(!Array.isArray(pen.color.edges.length)){clr=pen.color.edges[0];}
+			else{clr=pen.color.edges[j];}
+			if(!Array.isArray(pen.wt.edges.length)){stkwt=pen.wt.edges[0];}
+			else{stkwt=pen.wt.edges[j];}
 			vecConnect(vertices[j],ngbr1,clr,stkwt);
 			vecConnect(vertices[j],ngbr2,clr,stkwt);
 		}
@@ -136,8 +136,8 @@ function tristripV(arrpt,closeit,stylus,rotns,rounded){
 	if (pen.show.fillit){
 		for (let j=0; j<(numvertices-3+closer);j++){
 			let clr;
-			if(pen.color.fill.length>0){clr=pen.color.fill[0];}
-			if(pen.color.fill.length>1){clr=pen.color.fill[j];}
+			if(!Array.isArray(pen.color.fill.length)){clr=pen.color.fill[0];}
+			else{clr=pen.color.fill[j];}
 			let pts=[vertices[j],vertices[(j+1)%numvertices],vertices[(j+2)%numvertices]];
 			if      (rounded==0){triangleV(pts,clr    );}
 			else if (rounded==1){circleV(  pts,clr,1.8);}
@@ -227,10 +227,10 @@ function regpolyV(r,num,styles,rotns,center,planeN,xdir,store){
 		if (center){vv=vecSum(vv,center);}
 		ptarr.push(vv);
 	}
-	if (store){return ({faces:[ptarr],pen:styles,rotors:rotns,close:true})}
+	if (store){return ({faces:[ptarr],pens:styles,rotors:rotns,closeit:true})}
 	let dat=polyV(ptarr,true,styles,rotns);
 	return dat;
 }
-function dotCircle(info,detail,pen,rotor,store){
-	regpolyV(info.r,detail,pen,rotor,info.center,info.plane,null,store);
+function dotCircleV(info,detail,pen,rotor,store){
+	return regpolyV(info.r,detail,pen,rotor,info.center,info.plane,null,store);
 }

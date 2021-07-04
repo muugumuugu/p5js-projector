@@ -1,20 +1,3 @@
-function rgbcubeP(side,center,rot,scene){
-  let st=Pen(6);
-  //
-  fill(255,0,0,255);//back left, opp inward = B
-  square_(side,st,rot,center,'B',scene);
-  fill(0,0,255,255);//into the screen right; opp left : R
-  square_(side,st,rot,center,'R',scene);
-  fill(0,255,0,255);//bottom
-  square_(side,st,rot,center,'D',scene);
-  fill(255,0,0,192);//inwardsin circle , right in isolated isometric = F
-  square_(side,st,rot,center,'F',scene);
-  fill(0,0,255,192);//left ; outward L
-  square_(side,st,rot,center,'L',scene);
-  fill(0,255,0,192);//top
-  square_(side,st,rot,center,'U',scene);
-}
-
 function cubeP(side,center,rot,scene){
   //
   let st=Pen(6);
