@@ -46,7 +46,7 @@ function camControls(){
 	camRotZ=createSlider(-180       ,180       ,0,0.05);
 	camCX  =createSlider(-width*2 ,width *2 ,0);
 	camCY  =createSlider(-height*2,height*2 ,0);
-	camCZ  =createSlider(-depth*2 ,depth*2  ,0);
+	camCZ  =createSlider(-DEPTH*2 ,DEPTH*2  ,0);
 	fX     =createSlider(  -2       ,2         ,1,0.001);
 	fY     =createSlider(  -2       ,2         ,1,0.001);
 	poffX  =createSlider(  -2       ,2         ,0,0.001);

@@ -35,7 +35,7 @@ function canvasControls(){
 	canvasRotZ=createSlider(-180       ,180       ,0,0.05);
 	canvasTX  =createSlider(-width *2.5,width *2.5 ,0.1);
 	canvasTY  =createSlider(-height*2.5,height*2.5 ,0.1);
-	canvasTZ  =createSlider(-depth *2.5,depth *2.5 ,0.1);
+	canvasTZ  =createSlider(-DEPTH *2.5,DEPTH *2.5 ,0.1);
 	canvasSclX=createSlider(-10        ,10        ,1,0.01);
 	canvasSclY=createSlider(-10        ,10        ,1,0.01);
 	canvasSclZ=createSlider(-10        ,10        ,1,0.01);

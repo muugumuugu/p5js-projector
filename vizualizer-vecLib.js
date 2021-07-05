@@ -1,4 +1,4 @@
-let DEPTH=sz,depth=sz;
+let vizID=0;
 //=================================================================
 function setup() {
 	angleMode(DEGREES);
@@ -6,8 +6,6 @@ function setup() {
 	//----------------------------
 	cnv=createCanvas(sz,sz);
 	cnv.parent(select('#cnvs'));
-	cnv.mouseOver(coorDisp);
-	cnv.mouseMoved(coorDisp);
 	//-------------------------------
 	background(0);
 	drawGrid(10,true);
@@ -17,13 +15,16 @@ function setup() {
 	makeTerrain();
 	makePos();
 	//-------------------------------
+	DEPTH=sz;
+	updateOnResize();
+	//-------------------------------
 	camControls();
 	canvasControls();
 	updateviewCam();
 	updateviewCnvs();
 }
 function draw() {
-	background(0);
+	clear();
 	drawGrid(10,true,true);
 	coorDisp();
 	//---------------------
@@ -31,10 +32,12 @@ function draw() {
 	//---------------------
 	spec=fft.analyze();
 	//--------------------
-	//rotX(-3.6725);
-	rotSpec(VMODE);
-	//terrainG(VMODE,0);
-	//cuboidV([100,200,300],null,true)
+	if(vizID==0){
+		rotSpec();
+	}
+	else{
+		terrainG();
+	}
 }
 //==========================================================================
 function keyPressed(){

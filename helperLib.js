@@ -1,3 +1,14 @@
+function updateOnResize(){
+	SC=getSC();
+	negSC=vecScale(SC,-1)
+	TRENCH=getSC();TRENCH.z=-DEPTH;TRENCH.x*=-1;TRENCH.y*=-1;
+}
+//
+function getSC(){
+	if (scene.cnv){return vec3(scene.cnv.width/2,scene.cnv.height/2,0);}
+	else{return vec3(width/2,height/2,0);}
+}
+//
 function Pen(show){
 	let newpen={};
 	newpen.show={};
@@ -62,16 +73,17 @@ function PhysProp(dimen){
 		'fricn':1};
 	return prop;
 }
-function Scene(mode,cam,cnvs,canvasT,stretches,center){
-		let cnvs_=null,mode_=0,cam_=null,center_=vec3(),stretches_=vec3(1,1,1),canvasTupd=false,canvasT_=tMatrix();
+//=============
+function Scene(mode,cam,cnvs,canvasT){
+		let cnvs_=null,mode_=0,cam_=null,canvasTupd=false,canvasT_=tMatrix();
 		if(cnvs){cnvs_=cnvs;}
 		if(mode){mode_=mode;}
 		if(cam){cam_=cam;}
+		else{cam_=getModeCam(mode)}
 		if(canvasT){canvasT_=canvasT;}
-		if(center){center_=center}
-		if(stretches){stretches_=stretches;}
-	return {'mode':mode_,'cam':cam_,'cnv':cnvs_,'stretches':stretches_,'center':center_,'canvasT':canvasT_,'canvasTupd':canvasTupd}
+	return {'mode':mode_,'cam':cam_,'cnv':cnvs_,'canvasT':canvasT_,'canvasTupd':canvasTupd}
 }
+//==============
 function Rotor(arr,theta){
 	let obj=vec3();
 	if (arr){
@@ -85,6 +97,15 @@ function Rotor(arr,theta){
 	}
 	if(theta){return new Quaternion(obj,theta);}
 	return obj;
+}
+function Stretcher(arr,axis){
+	if(Array.isArray(arr)){return arr2vec(arr);}
+	if (typeof(arr)=='object'){return arr;}
+	else{
+		let str=[1,1,1];
+		str[axis]*=arr;
+		return arr2vec(str);
+	}
 }
 //=============
 function pol2cart(r,theta,plane,xdir){
@@ -150,11 +171,43 @@ function rotobjToQuat(rotor){
 		cx*cy*cz+sx*sy*sz
 	));
 }
+//------------
+function processPoints(arrpt,origin,rotor,pivot,plane,xdir,trans,digi){
+	let vertices=arrCopy(arrpt);
+	const numvertices=vertices.length;
+	//
+	let centroid=vec3();
+	for(let i=0; i<numvertices; i++){centroid=vecSum(centroid,vertices[i]);}
+	centroid=vecScale(centroid,1/numvertices);
+	//
+	if(rotor){
+		let nP,p;
+		if(pivot){nP=vecScale(pivot,-1);p=pivot;}
+		else{nP=vecScale(centroid,-1);p=centroid;}
+		let centerpt;
+		if (origin){centerpt=vecSum(p,origin);}
+		else{centerpt=p;}
+		for(let i=0; i<numvertices;i++){vertices[i]=vecSum(vecRotate(vecSum(vertices[i],nP),rotor),centerpt);}
+		if(origin){centroid=vecSum(centroid,origin);}
+	}
+	else if (origin){
+		for(let i=0; i<numvertices;i++){vertices[i]=vecSum(vertices[i],origin);}
+		centroid=vecSum(centroid,origin);
+	}
+	//
+	if(trans){for(let i=0; i<numvertices;i++){vertices[i]=vecTransform(vertices[i],trans);centroid=vecTransform(centroid,trans);}}
+	//
+	if(plane){for(let i=0; i<numvertices;i++){vertices[i]=flipPlane(vertices[i],plane,xdir);centroid=flipPlane(centroid,plane,xdir);}}
+	//
+	if(digi){for(let i=0; i<numvertices;i++){vertices[i]=vecDigitize(vertices[i]);centroid=vecDigitize(centroid);}}
+	return {vertices:vertices,centroid:centroid};
+}
 //=============
 function homogenize(vecObj){
-	let w=1;
+	let w=1,z=1;
 	if(vecObj.w){w=vecObj.w;}
-	return [vecObj.x,vecObj.y,vecObj.z,w];
+	if (vecObj.z){z=vecObj.z}
+	return [vecObj.x,vecObj.y,z,w];
 }
 function homogenize2Mat(vecObj){
 	return [homogenize(vecObj)];
@@ -162,6 +215,20 @@ function homogenize2Mat(vecObj){
 //==============
 function look(at,from){
 	return Camera(null,lookAtM(from,at));
+}
+function getModeCam(mode){
+	if(!mode){return null}
+	if (mode>3){
+		switch(mode){
+			case ISO:
+				return ISOCAM;
+			case DIAM:
+				return DIAMETRICCAM;
+			case CAB:
+				return CABINETCAM;
+		}
+	}
+	else{return null;}
 }
 //==============
 function drawGrid(scaled,showOrigin,label,rotaxes,inst){

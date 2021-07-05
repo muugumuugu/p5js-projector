@@ -1,39 +1,64 @@
 function vecDigitize(vec){
-	let shift;
-	if(scene.cnv){shift=vec3(scene.cnv.width/2,scene.cnv.height/2,0);}
-	else{shift=vec3(width/2,height/2,0);}
-	return vecSum(vecDot(vec,[1,-1,1]),shift);
+	return vecSum(vecStretch(vec,Stretcher(-1,Y)),SC);
+}
+//==================================
+function vecAlpha(vec){
+	let vecObj;
+	if(Array.isArray(vec)){vecObj=arr2vec(vec);}
+	else{vecObj=vec;}
+	let zlim,alphalim;
+		if(scene.cnv){
+			zlim=(scene.cnv.width+scene.cnv.height)/2;
+			if(scene.cnv.DEPTH){zlim=scene.cnv.DEPTH;}
+			alphalim=scene.cnv._colorMaxes[scene.cnv._colorMode][3]
+		}
+		else{
+			zlim=(width+height)/2;
+			if (DEPTH){zlim=DEPTH;}
+			alphalim=_colorMaxes[_colorMode][3]
+		}
+		return ((vecObj.z+zlim/2)*alphalim/zlim);
+}
+//==================================
+function vecProject(vec){
+	if (scene.mode>3){if(scene.cam){return vecTransform(vec,scene.cam);}}
+	else{
+		switch (scene.mode){
+			case STEREO:
+				return stereoproject(vec);
+			case FISH:
+				return  fisheyeview(vec);
+			case HUMAN:
+				return  humanview(vec);
+		}
+	}
+	return vec;
 }
 //===================================
 function vecPlot(vec,clr,stkwt){
-	let cors;
-	if (scene.canvasTupd){vec=vecTransform(vec,scene.canvasT);}
-	if (scene.cam){vec=vecTransform(vec,scene.cam);}
-	cors=vec;
+	let v=vecCopy(vec);
+	if (scene.canvasTupd){coors=vecTransform(v,scene.canvasT);}
+	if (scene.mode>0){coors=vecProject(v)}
 	if (scene.cnv){
 		if (clr){scene.cnv.stroke(clr);}
 		if (stkwt){scene.cnv.strokeWeight(clr);}
-		scene.cnv.point(cors.x,cors.y)
+		scene.cnv.point(v.x,v.y)
 	}
 	else{
 		if (clr){stroke(clr);}
 		if (stkwt){strokeWeight(clr);}
-		point(cors.x,cors.y)
+		point(v.x,v.y)
 	}
 }
 function vecConnect(vec1,vec2,clr,stkwt){
-	let v1,v2;
-	if (Array.isArray(vec1)){v1=arr2vec(vec1);}
-	else {v1=vec1;}
-	if (Array.isArray(vec2)){v2=arr2vec(vec2);}
-	else {v2=vec2;}
+	let v1=vecCopy(vec1),v2=vecCopy(vec2);
 	if (scene.canvasTupd){
 		v1=vecTransform(v1,scene.canvasT);
-		v1=vecTransform(v1,scene.canvasT);
+		v2=vecTransform(v2,scene.canvasT);
 	}
-	if (scene.cam){
-		v1=vecTransform(v1,scene.cam);
-		v2=vecTransform(v2,scene.cam)
+	if (scene.mode>0){
+		v1=vecProject(v1)
+		v2=vecProject(v2)
 	}
 	if (scene.cnv){
 		if (clr){scene.cnv.stroke(clr);}
@@ -48,32 +73,26 @@ function vecConnect(vec1,vec2,clr,stkwt){
 	return vecDist(v1,v2);
 }
 //------------
-function polyV(arrpt,closeit,stylus,rotors){
-	let pen=Pen();
+function polyV(data,closeit,stylus){
+	let pen=Pen(0);
 	if(stylus){pen=stylus;}
 	let closer=0;
-	if(closeit){closer=1;}
-	let vertices=arrCopy(arrpt);
+	if(closeit){closer=closeit;}
+	//
+	let vertices=data.vertices;
+	let centroid=data.centroid
 	const numvertices=vertices.length;
-	if(rotors){
-		if(Array.isArray(rotors)){for(let i=0; i<numvertices;i++){vertices[i]=vecRotate(vertices[i],rotors[i]);}}
-		else{for(let i=0; i<numvertices;i++){vertices[i]=vecRotate(vertices[i],rotors);}}
-	}
 	//
 	if (pen.show.points){
 		for(let i=0; i<numvertices; i++){
 			let clr,stkwt;
-			if(!Array.isArray(pen.color.points.length)){clr=pen.color.points[0];}
+			if(!Array.isArray(pen.color.points)){clr=pen.color.points;}
 			else{clr=pen.color.points[i];}
-			if(!Array.isArray(pen.wt.points.length)){stkwt=pen.wt.points[0];}
+			if(!Array.isArray(pen.wt.points)){stkwt=pen.wt.points;}
 			else{stkwt=pen.wt.points[i];}
 			vecPlot(vertices[i],clr,stkwt);
 		}
 	}
-	//
-	let centroid=vec3();
-	for(let i=0; i<numvertices; i++){centroid=vecSum(centroid,vertices[i]);}
-	centroid=vecScale(centroid,1/numvertices);
 	//
 	let area,perimeter;
 	//
@@ -82,7 +101,7 @@ function polyV(arrpt,closeit,stylus,rotors){
 		for(let i=0; i<(numvertices-1+closer); i++){
 			let clr;
 			let ngbr=vertices[(i+1)%numvertices];
-			if(!Array.isArray(pen.color.fill.length)){clr=pen.color.fill[0];}
+			if(!Array.isArray(pen.color.fill)){clr=pen.color.fill;}
 			else{clr=pen.color.fill[i];}
 			let pts=[vertices[i],ngbr,centroid];
 			area+=triangleV(pts,clr);
@@ -94,28 +113,33 @@ function polyV(arrpt,closeit,stylus,rotors){
 		for(let i=0; i<(numvertices-1+closer); i++){
 			let clr,stkwt;
 			let ngbr=vertices[(i+1)%numvertices];
-			if(!Array.isArray(pen.color.edges.length)){clr=pen.color.edges[0];}
+			if(!Array.isArray(pen.color.edges)){clr=pen.color.edges;}
 			else{clr=pen.color.edges[i];}
-			if(!Array.isArray(pen.wt.edges.length)){stkwt=pen.wt.edges[0];}
+			if(!Array.isArray(pen.wt.edges)){stkwt=pen.wt.edges;}
 			else{stkwt=pen.wt.edges[i];}
 			perimeter+=vecConnect(vertices[i],ngbr,clr,stkwt);
 		}
 	}
-	return {'centroid':centroid,'area':area,'perimeter':perimeter};
+	return {'centroid':centroid,'area':area,'perimeter':perimeter,'ptarr':vertices};
 }
-function tristripV(arrpt,closeit,stylus,rotns,rounded){
-	let numvertices=arrpt.length;
+function tristripV(data,closeit,stylus,rounded){
 	let closer=0;
-	if(closeit){closer=1;}
+	if(closeit){closer=closeit;}
 	let pen=Pen();
 	if(stylus){pen=stylus;}
-	let vertices=arrCopy(arrpt);
+	//
+	let vertices=data.vertices;
+	let centroid=data.centroid
+	const numvertices=vertices.length;
+	//
+	let rounded_=0;
+	if(rounded){rounded_=rounded}
 	if (pen.show.points){
 		for (let j=0; j<(numvertices-1+closer);j++){
 			let clr,stkwt;
-			if(!Array.isArray(pen.color.points.length)){clr=pen.color.points[0];}
+			if(!Array.isArray(pen.color.points)){clr=pen.color.points;}
 			else{clr=pen.color.points[j];}
-			if(!Array.isArray(pen.wt.points.length)){stkwt=pen.wt.points[0];}
+			if(!Array.isArray(pen.wt.points)){stkwt=pen.wt.points;}
 			else{stkwt=pen.wt.points[j];}
 			vecPlot(vertices[j],clr,stkwt);
 		}
@@ -125,9 +149,9 @@ function tristripV(arrpt,closeit,stylus,rotns,rounded){
 			let clr,stkwt;
 			let ngbr1=vertices[(j+1)%numvertices];
 			let ngbr2=vertices[(j+2)%numvertices];
-			if(!Array.isArray(pen.color.edges.length)){clr=pen.color.edges[0];}
+			if(!Array.isArray(pen.color.edges)){clr=pen.color.edges;}
 			else{clr=pen.color.edges[j];}
-			if(!Array.isArray(pen.wt.edges.length)){stkwt=pen.wt.edges[0];}
+			if(!Array.isArray(pen.wt.edges)){stkwt=pen.wt.edges;}
 			else{stkwt=pen.wt.edges[j];}
 			vecConnect(vertices[j],ngbr1,clr,stkwt);
 			vecConnect(vertices[j],ngbr2,clr,stkwt);
@@ -136,40 +160,40 @@ function tristripV(arrpt,closeit,stylus,rotns,rounded){
 	if (pen.show.fillit){
 		for (let j=0; j<(numvertices-3+closer);j++){
 			let clr;
-			if(!Array.isArray(pen.color.fill.length)){clr=pen.color.fill[0];}
+			if(!Array.isArray(pen.color.fill)){clr=pen.color.fill;}
 			else{clr=pen.color.fill[j];}
 			let pts=[vertices[j],vertices[(j+1)%numvertices],vertices[(j+2)%numvertices]];
-			if      (rounded==0){triangleV(pts,clr    );}
-			else if (rounded==1){circleV(  pts,clr,1.8);}
+			if      (rounded_==0){triangleV(pts,clr    );}
+			else if (rounded_==1){circleV(  pts,clr,1.8);}
 		}
 	}
 }
-function solidV(faces,closeit,pens,rotors){
-	if(Array.isArray(pens)){
-			if(Array.isArray(rotors)){
-				for (let i=0; i<faces.length;i++){polyV(faces[i],closeit,pens[i],rotors[i]);}
-			}
-			else{
-				for (let i=0; i<faces.length;i++){polyV(faces[i],closeit,pens[i],rotors);}
-			}
+function solidV(faces,closeits,pens){
+	if(Array.isArray(closeits)){
+		if(Array.isArray(pens)){
+			for (let i=0; i<faces.length;i++){polyV(faces[i],closeits[i],pens[i]);}
 		}
+		else{
+			for (let i=0; i<faces.length;i++){polyV(faces[i],closeits[i],pens);}
+		}
+	}
 	else{
-		if(Array.isArray(rotors)){
-				for (let i=0; i<faces.length;i++){polyV(faces[i],closeit,pens,rotors[i]);}
-			}
-			else{
-				for (let i=0; i<faces.length;i++){polyV(faces[i],closeit,pens,rotors);}
-			}
+		if(Array.isArray(pens)){
+			for (let i=0; i<faces.length;i++){polyV(faces[i],closeits,pens[i]);}
+		}
+		else{
+			for (let i=0; i<faces.length;i++){polyV(faces[i],closeits,pens);}
+		}
 	}
 	return faces;
 }
-//----------
+//---------------------------------------------------------------------
 function triangleV(points,clr){
 	let p5inst=scene.cnv;
 	//
 	let pts=arrCopy(points);
 	if (scene.canvasTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],scene.canvasT);}}
-	if (scene.cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],scene.cam);}}
+	if (scene.mode>0){for(let i=0; i<3;i++){pts[i]=vecProject(pts[i]);}}
 	//
 	if (p5inst){
 		if (clr){p5inst.fill(clr);}
@@ -195,7 +219,7 @@ function triangleV(points,clr){
 function circleV(points,clr,fac){
 	let pts=arrCopy(points);
 	if (scene.canvasTupd){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],scene.canvasT);}}
-	if (scene.cam){for(let i=0; i<3;i++){pts[i]=vecTransform(pts[i],scene.cam);}}
+	if (scene.mode>0){for(let i=0; i<3;i++){pts[i]=vecProject(pts[i]);}}
 	//
 	let circinfo=circumscribe(pts[0],pts[1],pts[2]);
 	//
@@ -216,7 +240,7 @@ function circleV(points,clr,fac){
 	}
 }
 //----------
-function regpolyV(r,num,styles,rotns,center,planeN,xdir,store){
+function regpolyV(r,num,stylus,center,rotor,pivot,planeN,xdir,trans,store){
 	let n=3;
 	if (num){n=num;}
 	let angadd=Math.PI/2-Math.PI/n;
@@ -224,13 +248,13 @@ function regpolyV(r,num,styles,rotns,center,planeN,xdir,store){
 	for (i=0; i<n ;i++){
 		let ang=i*2*Math.PI/n;
 		let vv=pol2cart(r,ang+angadd,planeN,xdir);
-		if (center){vv=vecSum(vv,center);}
 		ptarr.push(vv);
 	}
-	if (store){return ({faces:[ptarr],pens:styles,rotors:rotns,closeit:true})}
-	let dat=polyV(ptarr,true,styles,rotns);
+	let info=processPoints(arrpt,origin,rotor,pivot,plane,xdir,trans,digi);
+	if (store){return ({data:info,pen:stylus,closeit:CLOSED})}
+	let dat=polyV(info,CLOSED,stylus)
 	return dat;
 }
 function dotCircleV(info,detail,pen,rotor,store){
-	return regpolyV(info.r,detail,pen,rotor,info.center,info.plane,null,store);
+	return regpolyV(info.r,detail,pen,info.center,rotor,info.plane,null,null,store);
 }
