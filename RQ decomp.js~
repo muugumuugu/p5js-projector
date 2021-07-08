@@ -1,0 +1,5 @@
+//QR decomp
+A=M by N
+take coloum vector from A, say 1st column==x
+x=transposed(A)[0];
+alpha=

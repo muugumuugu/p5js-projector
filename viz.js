@@ -1,11 +1,21 @@
-let fft, mic,spec,amp;
-function setSoundSys(){
-  mic = new p5.AudioIn();
-  mic.start();
-  amp=new p5.Amplitude();
-  amp.setInput(mic);
-  fft = new p5.FFT();
-  fft.setInput(mic);
+let fft, mic,amp;
+function setSoundSys(instn){
+	if(instn){
+		instn.mic = new p5.AudioIn();
+		instn.mic.start();
+		instn.amp=new p5.Amplitude();
+		instn.amp.setInput(instn.mic);
+		instn.amp.toggleNormalize(true);
+		instn.fft = new p5.FFT();
+		instn.fft.setInput(instn.mic);
+	}
+	mic = new p5.AudioIn();
+	mic.start();
+	amp=new p5.Amplitude();
+	amp.setInput(mic);
+	amp.toggleNormalize(true);
+	fft = new p5.FFT();
+	fft.setInput(mic);
 }
 //==========================================
 let cublings=[];
@@ -30,18 +40,18 @@ function makePos(){
 
 }
 //--------------
-function rotSpec(){
+function rotSpec(spec){
 	for (let i=0; i<numb; i++){
-		let ind=floor(i*spec.length*0.8/numb);
+		let ind=Math.floor(i*spec.length*0.8/numb);
 		let h=25+spec[ind]*sz*0.5/255;
 		strokeWeight(0.8);
 		stroke(0,0,0,200);
-		let off=floor((i+frameCount)%numb);
+		let off=Math.floor((i+frameCount)%numb);
 		let fills=i;
 		cublings[off].val=h;
 		cublings[off].offset=i;
-		push();
-		fill(map(cublings[i].offset,0,numb,0,360),100,100,100);
+		if (scene.cnv){scene.cnv.fill("hsba("+cublings[i].offset*360/numb+",100%,100%,0.4)");}
+		else{fill("hsba("+cublings[i].offset*360/numb+",100%,100%,0.4)");}
 		cuboidV(
 		[cubeD,cublings[i].val,cubeD],
 		null,//default Pen
@@ -49,7 +59,6 @@ function rotSpec(){
 		cublings[i].rot,
 		true//digitizee
 		);
-		pop();
 	}
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,19 +69,19 @@ function makeTerrain(){
   for (var x = 0; x < cols; x++) {
     terrain[x] = [];
     for (var y = 0; y < rows; y++) {
-      terrain[x][y] = 0; //specify a default value for now
+      terrain[x][y] = 0;
     }
   }
 }
 //--------------
-function terrainG(){
+function terrainG(spec){
 	for (let y = 0; y < rows; y++) {
 		let xoff = 0;
 		let r=(cols/2)*(cols/2)+(rows/2)*(rows/2);
 		for (let x = 0; x < cols; x++) {
 			let dx=(x-cols/2);dx*=dx;
 			let dy=(y-rows/2);dy*=dy;
-			let radwise=Math.floor(map(dx+dy,0,r,0,800));
+			let radwise=Math.floor((dx+dy)*800/r);
 			let freqen=spec[radwise]/255;
 			terrain[x][y] =freqen*freqen*255;
 		}
@@ -81,9 +90,9 @@ function terrainG(){
 		let terrainpts=[];
 		let tstyles=new Pen(4);
 		for (let x = 1; x < cols; x++) {
-			let cor =240-120*log(1+terrain[x][z])/log(16)
-			tstyles.color.fill.push(color(cor, 100, 100,100));
-			tstyles.color.fill.push(color(cor, 100, 100,100));
+			const cor=Math.floor(240-120*log(1+terrain[x][z])/log(16));
+			tstyles.color.fill.push("hsba("+cor+",100%,100%,0.4)");
+			tstyles.color.fill.push("hsba("+cor+",100%,100%,0.4)");
 			let t1=vec3((x-cols/2)*scl, terrain[x][z]  ,(z-rows/2)*scl);
 			t1=vecDigitize(t1);
 			terrainpts.push(t1);

@@ -50,3 +50,29 @@ function cuboidV(dimensions,stylus,center,rotn,digi,store){
 	if (store){return ({faces:facedatas,pens:pen,closeits:CLOSED})}
 	return solidV(facedatas,CLOSED,pen);
 }
+function sphereV(r,stylus,center,rotn,detail,digi,store){
+	let det=detail||Math.floor(r/2);
+	const dott=Math.PI*2/det;
+	let pen=Pen(2);
+	let bang;
+	if(center||digi){bang=vecSum(center,SC);}
+	if(stylus){pen=stylus;}
+	for (let colat=0; colat<Math.PI; colat+=dott/2){
+		pen.wt.points.push(2-1.5*Math.abs(colat-Math.PI/2)/(Math.PI/2));
+		pen.wt.edges.push(2-1.5*Math.abs(colat-Math.PI/2)/(Math.PI/2));
+	}
+	for (let longi=0; longi<Math.PI*2;longi+=dott){
+		let pts=[];
+		for (let colat=0; colat<Math.PI; colat+=dott/2){
+			let x=r*Math.cos(longi)*Math.sin(colat);
+			let y=r*Math.sin(longi)*Math.sin(colat);
+			let z=Math*Math.cos(colat);
+			let v=vec3(x,y,z);
+			if(rotn){v=vecRotate(v,rotn);}
+			if(bang){v=vecSum(v,bang)}
+			pts.push(v);
+		}
+		let info=processPoints(pts);
+		polyV(info,true,pen);
+	}
+}

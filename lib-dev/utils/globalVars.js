@@ -5,4 +5,5 @@ let sz=750;
 let DEPTH;
 let SC,negSC;
 let TRENCH,ZENITH;
+let VANISH;
 //--------------------------------------------------------------

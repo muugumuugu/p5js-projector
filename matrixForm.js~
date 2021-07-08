@@ -54,13 +54,13 @@ function matrixFormDOM(){
 	fillPoseM();
 	for (let i=0;i<4;i++){
 		for (let j=0;j<4;j++){
-			poseMfrm[index1D(i,j,4)].onchange=function(){poseGetFrmEntry(i,j);}
+			canvasMfrm[index1D(i,j,4)].onchange=function(){cnvsGetFrmEntry(i,j);}
 		}
 	}
 	fillIntM();
 	for (let i=0;i<4;i++){
 		for (let j=0;j<4;j++){
-			intrinsicMfrm[index1D(i,j,4)].onchange=function(){intrinsicGetFrmEntry(i,j);}
+			canvasMfrm[index1D(i,j,4)].onchange=function(){cnvsGetFrmEntry(i,j);}
 		}
 	}
 }

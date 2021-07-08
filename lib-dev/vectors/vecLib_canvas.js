@@ -6,30 +6,30 @@ function vecAlpha(vec){
 	let vecObj;
 	if(Array.isArray(vec)){vecObj=arr2vec(vec);}
 	else{vecObj=vec;}
-	let zlim,alphalim;
+	let alphalim;
 		if(scene.cnv){
-			zlim=(scene.cnv.width+scene.cnv.height)/2;
-			if(scene.cnv.DEPTH){zlim=scene.cnv.DEPTH;}
 			alphalim=scene.cnv._colorMaxes[scene.cnv._colorMode][3]
 		}
 		else{
-			zlim=(width+height)/2;
-			if (DEPTH){zlim=DEPTH;}
 			alphalim=_colorMaxes[_colorMode][3]
 		}
-		return ((vecObj.z+zlim/2)*alphalim/zlim);
+		return ((vecObj.z+zlim/2)*alphalim/VANISH.z);
 }
 //==================================
 function vecProject(vec){
-	if (scene.mode>3){if(scene.cam){return vecTransform(vec,scene.cam);}}
+	if (scene.mode>5){if(scene.cam){return vecTransform(vec,scene.cam);}}
 	else{
 		switch (scene.mode){
 			case STEREO:
 				return stereoproject(vec);
-			case FISH:
-				return  fisheyeview(vec);
+			case TWOPT:
+				return twoptproject(vec);
+			case THREEPT:
+				return threeptproject(vec);
 			case HUMAN:
 				return  humanview(vec);
+			case FISH:
+				return  fisheyeview(vec);
 		}
 	}
 	return vec;
@@ -41,12 +41,12 @@ function vecPlot(vec,clr,stkwt){
 	if (scene.mode>0){coors=vecProject(v)}
 	if (scene.cnv){
 		if (clr){scene.cnv.stroke(clr);}
-		if (stkwt){scene.cnv.strokeWeight(clr);}
+		if (stkwt){scene.cnv.strokeWeight(stkwt);}
 		scene.cnv.point(v.x,v.y)
 	}
 	else{
 		if (clr){stroke(clr);}
-		if (stkwt){strokeWeight(clr);}
+		if (stkwt){strokeWeight(stkwt);}
 		point(v.x,v.y)
 	}
 }
@@ -62,12 +62,12 @@ function vecConnect(vec1,vec2,clr,stkwt){
 	}
 	if (scene.cnv){
 		if (clr){scene.cnv.stroke(clr);}
-		if (stkwt){scene.cnv.strokeWeight(clr);}
+		if (stkwt){scene.cnv.strokeWeight(stkwt);}
 		scene.cnv.line(v1.x,v1.y,v2.x,v2.y);
 	}
 	else{
 		if (clr){stroke(clr);}
-		if (stkwt){strokeWeight(clr);}
+		if (stkwt){strokeWeight(stkwt);}
 		line(v1.x,v1.y,v2.x,v2.y);
 	}
 	return vecDist(v1,v2);
@@ -256,5 +256,6 @@ function regpolyV(r,num,stylus,center,rotor,pivot,planeN,xdir,trans,store){
 	return dat;
 }
 function dotCircleV(info,detail,pen,rotor,store){
-	return regpolyV(info.r,detail,pen,info.center,rotor,info.plane,null,null,store);
+	let dots=detail||Math.floor(info.r/2);
+	return regpolyV(info.r,dots,pen,info.center,rotor,info.plane,null,null,store);
 }

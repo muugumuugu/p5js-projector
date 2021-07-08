@@ -18,7 +18,6 @@ function setup() {
 	DEPTH=sz;
 	updateOnResize();
 	//-------------------------------
-	getFrms();
 	camControls();
 	canvasControls();
 	updateviewCam();

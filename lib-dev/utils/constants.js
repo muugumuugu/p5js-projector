@@ -5,13 +5,15 @@ const X=0;const Y=1;const Z=2;
 //---------------------
 const ORTHO=0;
 const STEREO=1;
-const FISH=2;
-const HUMAN=3;
+const TWOPT=2;
+const THREEPT=3;
+const HUMAN=4;
+const FISH=5;
 //
-const ISO=4;
-const DIAM=5;
-const CAB=6;
-const CUSTOM=7;
+const ISO=5;
+const DIAM=6;
+const CAB=7;
+const CUSTOM=8;
 //-----------------------------------------------------------------
 ////========
 //builtin systems

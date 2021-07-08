@@ -17,7 +17,7 @@ canvas {
 }
 iframe{
 border:none;
-width:840px;
+width:836px;
 margin:0px;
 height:580px;
 padding:0px;

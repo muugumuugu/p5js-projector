@@ -166,7 +166,6 @@ function updateviewCam(){
 	let camTemp=Camera(camintr,camextr);
 	if(matEq(camTemp,identityMatrix(4))){scene.cam=null;}
 	else{scene.cam=camTemp;}
-	//------------------------------------
 	fillCamM()
 	//========================================
 }
