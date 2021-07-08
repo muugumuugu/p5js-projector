@@ -5,7 +5,7 @@ function vec2arr(vecObj){
 	let dim=vecDim(vecObj);
 	let ind=['x','y','z','w'];
 	let arr=[];
-	for(let i=0;i<min(dim,4);i++){arr.push(vecObj[ind[i]]);}
+	for(let i=0;i<Math.min(dim,4);i++){arr.push(vecObj[ind[i]]);}
 	for(let j=4;j<dim;j++){
 		let indx='d'+j;
 		arr.push(vecObj[indx]);
@@ -15,7 +15,7 @@ function vec2arr(vecObj){
 function arr2vec(arr){
   let ind=['x','y','z','w'];//till 4 d
   let v={};
-  for (let i=0;i<min(arr.length,4);i++){v[ind[i]]=arr[i];}
+  for (let i=0;i<Math.min(arr.length,4);i++){v[ind[i]]=arr[i];}
   for (let j=4;j<arr.length;j++){
     let indx='d'+j;
     v[indx]=arr[j];
