@@ -62,8 +62,8 @@ function rotSpec(spec){
 	}
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-let scl=50;
-let rows=Math.floor(sz*1.5/scl),cols=Math.floor(sz*1.5/scl);
+const SCL=50;
+let rows=Math.floor(sz*1.5/SCL),cols=Math.floor(sz*1.5/SCL);
 let terrain=[];
 function makeTerrain(){
   for (var x = 0; x < cols; x++) {
@@ -93,14 +93,14 @@ function terrainG(spec){
 			const cor=Math.floor(240-120*log(1+terrain[x][z])/log(16));
 			tstyles.color.fill.push("hsba("+cor+",100%,100%,0.4)");
 			tstyles.color.fill.push("hsba("+cor+",100%,100%,0.4)");
-			let t1=vec3((x-cols/2)*scl, terrain[x][z]  ,(z-rows/2)*scl);
+			let t1=vec3((x-cols/2)*SCL, terrain[x][z]  ,(z-rows/2)*SCL);
 			t1=vecDigitize(t1);
 			terrainpts.push(t1);
-			let t2=vec3((x-cols/2)*scl, terrain[x][z+1],(z-rows/2)*scl+scl);
+			let t2=vec3((x-cols/2)*SCL, terrain[x][z+1],(z-rows/2)*SCL+SCL);
 			t2=vecDigitize(t2)
 			terrainpts.push(t2);
 		}
-		let t0=vec3((cols/2)*scl, terrain[cols-1][z]  ,(z-rows/2)*scl+scl);
+		let t0=vec3((cols/2)*SCL, terrain[cols-1][z]  ,(z-rows/2)*SCL+SCL);
 		t0=vecDigitize(t0);
 		terrainpts.push(t0);
 		tristripV(processPoints(terrainpts),OPEN,tstyles);

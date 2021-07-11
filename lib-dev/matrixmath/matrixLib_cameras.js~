@@ -52,13 +52,12 @@ function decomposeCam(camMatrix){
 	let t=[getrow(camMatrix,4)];
 	transpose(t);transpose(camMatrix);
 	let decomp=QRdecompose(minor(camMatrix,3,3));
-	if(det(decomp.Q)<0){scaleMatrix(decomp.Q,-1);decomp.R[2]=scaledArr(decomp.R[2],-1);}
 	let posn=matMult(decomp.Q,t);
 	transpose(decomp.R);
 	//transpose(decomp.Q);
 	transpose(posn);
 	decomp.R=swapMinor(identityMatrix(4),decomp.R,0,0);
-	decomp.Q=swapMinor(identityMatrix(4),decomp.Q,0,0);
+	decomp.R=swapMinor(identityMatrix(4),decomp.Q,0,0);
 	scaleMatrix(posn,-1);
 	let res={ROT:decomp.Q,INTRINSIC:decomp.R,POS:posn[0]}
 	if(scene.cam){scene.camComponents=res;}

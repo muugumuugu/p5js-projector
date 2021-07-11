@@ -1,4 +1,4 @@
-html, body {
+html,body {
 	width:100%;
 	margin: 0;
 	padding: 0;
@@ -15,12 +15,21 @@ canvas {
 	border-color:#caea5b;
 	display: inline;
 }
-iframe{
+iframe#SLIDERFRM{
 border:none;
-width:840px;
+overflow:hidden;
 margin:0px;
-height:580px;
 padding:0px;
+width:860px;
+height:670px;
+}
+iframe#MATRIXFRM{
+border:none;
+overflow:hidden;
+margin:0px;
+padding:0px;
+width:910px;
+height:550px;
 }
 input{
 	width:230px;
@@ -71,11 +80,7 @@ button:hover{
 	box-shadow: 0px 0px 5px 5px white;
 	cursor:pointer;
 }
-p{
-	border:dotted;
-	margin-top:1px;
-	margin-bottom:5px;
-}
+/**/
 div{
 	margin:0px;
 	padding:0px;
@@ -87,118 +92,30 @@ div.flex{
 }
 
 div.ctrls{
-	margin-right:10px;
+	padding:0px;
 	display:flex;
 	overflow-y:scroll;
 	overflow-x:hidden;
-	width:890px;
-	height:670px;
+	width:940px;
+	height:900px;
+	top:0px;
+	left:7px;
+	margin-right:10px;
+	padding:0px;
 }
 
 div.matrices{
 	background:black;
 	display:none;
 	position: absolute;
-	top:7px;
-	left:7px;
-	width:840px;
+	top:0px;
+	left:4px;
+	margin:0px;
+	padding-left:0px;
 	padding:0px;
 	border:dotted;
+	border-width:0.3px;
 	border-color:white;
-	height:650px;
-}
-div.camCtrls{
-	margin-top:7px;
-	width:720px;
-	height:600px;
-	margin-left:0px;
-}
-div.canvasCtrls{
-	display:flex;
-	flex-wrap:wrap;
-	width:320px;
-	height:660px;
-}
-
-div.camCtrls div {
-	background:#000;
-	width:545px;
-	text-align:center;
-	border:ridge;
-	margin:1px;
-	padding-bottom:5px;
-	margin-bottom:10px;
-}
-div.canvasCtrls div{
-	background:#000;
-	overflow:hide;
-	width:85px;
-	padding:0px;
-	margin-top:7px;
-	margin-left:7px;
-	height:600px;
-	border:groove;
-}
-div.canvasCtrls #resetCnv{
-	background:transparent;
-	display:flex;
-	overflow:hide;
-	width:291px;
-	padding:0px;
-	margin-top:0px;
-	margin-left:1px;
-	height:32px;
-	padding-left:5px;
-	border:none;
-}
-
-div.camCtrls div div{
-	display:flex;
-	width:540px;
-	border:none;
-	margin-bottom:0px;
-	padding-bottom:0px;
-}
-div.canvasCtrls div div{
-	padding:0px;
-	margin:0px;
-	width:85px;
-	border:none;
-	display:flex;
-	height:20%
-}
-div.canvasCtrls #resetCnv div{
-	background:transparent;
-	padding:4px;
-	border:ridge;
-	margin-left:13px;
-	margin-right:13px;
-	display:inline;
-	width:97px !important;
-	height:26px;
-
-}
-
-div.camCtrls div div div{
-	display:inline;
-	background:#000;
-	width:280px;
-	text-align:center;
-	border:groove;
-	border-color:gray;
-	padding-top:8px;
-	padding-bottom:2px;
-}
-div.canvasCtrls div div div {
-	width:32%;
-	height:430px;
-	text-align:center;
-	display:block;
-}
-div.canvasCtrls div div div input{
-	position: relative;
-	top: 200px;
-	left:-187px;
-	width:400px;
-	transform: rotate(270deg);
+	width:920px;
+	height:670px;
 }

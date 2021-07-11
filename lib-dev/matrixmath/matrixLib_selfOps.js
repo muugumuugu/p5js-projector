@@ -57,6 +57,10 @@ function transposed(M){
 	return T;
 }
 //==================================
+function matSq(M,alt){
+	if (alt){return matMult(transposed(M),M);}
+	return matMult(M,transposed(M));
+}
 function adjoint(M){
 	let adj=[];
 	let rows=M.length;
@@ -118,3 +122,24 @@ function det(M){
 	return dett;
 }
 //===================================
+function QRdecompose(M){
+	let qArr=[];
+	temp=arrCopy(M);
+	ii=identityMatrix(M.length);
+	for (let i=0;i<M.length-1;i++){
+		let v=transposed(temp)[0];
+		v=vecCopy(v);
+		const a=vecMag(v);
+		v.x-=a;
+		let vv=matSq([vec2arr(vecNormalize(v))],true);
+		scaleMatrix(vv,-2);
+		qArr[i]=matSum(identityMatrix(temp.length),vv)
+		temp=minor(matMult(qArr[i],temp),0,0);
+		qArr[i] =swapMinor(ii,qArr[i],i,i);
+	}
+	qArr.reverse();
+	let qq=matChainProd(qArr);
+	let r=matMult(qq,M);
+	return {Q:transposed(qq),R:r};
+
+}

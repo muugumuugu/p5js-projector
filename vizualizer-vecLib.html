@@ -14,8 +14,9 @@
 		<script src="lib/projector/projector-core.js"></script>
 		<!---->
 		<script src="matrixForm.js"></script>
-		<script src="camTransControls.js"></script>
-		<script src="canvasTransControls.js"></script>
+		<script src="lib/projector/frontend/frontendHelpers.js"></script>
+		<script src="lib/projector/frontend/camTransControls.js"></script>
+		<script src="lib/projector/frontend/canvasTransControls.js"></script>
 		<!---->
 		<script src="viz.js"></script>
 		<!---->
@@ -23,16 +24,12 @@
 	</head>
 	<body>
 		<div class="flex">
-			<div class="ctrls">
-				<div class="canvasCtrls" id="canvasCtrls"></div>
-				<div class="camCtrls" id="camControls"></div>
-			</div>
-			<div class="matrices" id="matrices" ><iframe id="form" src="form.html"></iframe>
-			</div>
+			<div class="ctrls" ><iframe  id="SLIDERFRM" scrolling="no" src="lib/projector/frontend/slider.html"></iframe></div>
+			<div class="matrices" style="padding-top:5px;padding-left:0px;" id="matrices" ><iframe style="left:-4px; padding:0px;" scrolling="no" id="MATRIXFRM" src="lib/projector/frontend/form.html"></iframe></div>
 			<button id="resetCameraB" onclick="resetcam()"><i>reset camera to default</i></button>
 			<button id="resetCanvasB" onclick="resetcanvas()"><i>reset canvas to default</i></button>
 			<button id="switchView" onclick="toggleSliderTbl()">MATRIX VIEW &gt;&gt;</button>
-		<div id="cnvs"></div>
+			<div id="cnvs"></div>
 		</div>
 		<script src="vizualizer-vecLib.js"></script>
 

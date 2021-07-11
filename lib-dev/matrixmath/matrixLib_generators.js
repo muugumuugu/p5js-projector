@@ -17,6 +17,17 @@ function fillarr(size,filler){
 	}
 	return arr;
 }
+function range(a,b,step){
+	let temp=[];
+	let n,start=0;
+	if (!b){n=a+1;start=0;}
+	else{start=a;n=b+1;}
+	step=step||1;
+	for (let i=start; i<n;i+=step){
+		temp.push(i);
+	}
+	return temp;
+}
 //--------------
 function nullMatrix(m,n){
 	let rows=1;
@@ -96,10 +107,10 @@ function rollpitchyaw(rotor,T){//X then Y then Z., TAIT BRYAN ANGLES
 			s[i]=Math.sin(angs[i])
 	}
 	temp=([
-		[ c[2]*c[1] , c[2]*s[2]*s[1]*s[0] - c[0]*s[2]      , s[2]*s[0]      + c[2]*c[0]*s[1],0],
-		[ c[1]*s[2] , c[2]*c[0]           + s[2]*s[1]*s[0] , c[0]*s[2]*s[1] - c[2]*s[0]     ,0],
-		[ -s[1]     , c[1]*s[0]                            , c[1]*c[0]                      ,0],
-		[  0        , 0                                    , 0                              ,1]
+		[ c[2]*c[1]	, c[2]*s[1]*s[0] - c[0]*s[2]	  , s[2]*s[0]	   + c[2]*c[0]*s[1] , 0],
+		[ c[1]*s[2] , c[2]*c[0]      + s[2]*s[1]*s[0] , c[0]*s[2]*s[1] - c[2]*s[0]      , 0],
+		[ -s[1]	    , c[1]*s[0]	                      , c[1]*c[0]                       , 0],
+		[  0        , 0                               , 0                               , 1]
 	]);
 	if(T){return matMult(T,temp)};
 	return temp;

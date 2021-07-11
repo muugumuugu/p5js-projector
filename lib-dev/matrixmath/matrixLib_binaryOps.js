@@ -48,6 +48,13 @@ function matMult(M1,M2){
 	return prod;
 
 }
+function matChainProd(data){
+	let prod=arrCopy(data[0]);
+	for(let i=1; i<data.length;i++){
+		prod=matMult(prod,data[i]);
+	}
+	return prod;
+}
 //=====================================
 function arrSum(A1,A2,A,V){
 	res=[];
@@ -116,3 +123,13 @@ function matEq(M1,M2){
 	else {return false;}
 }
 //=====================================
+function swapMinor(M,portion,i,j){
+	let temp=arrCopy(M);
+	let rows=portion.length,cols=portion[0].length;
+	for(let y=i;(y-i)<rows;y++){
+		for(let x=j;(x-j)<cols;x++){
+			temp[y][x]=portion[y-i][x-j];
+		}
+	}
+	return temp;
+}
