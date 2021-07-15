@@ -231,7 +231,7 @@ function Rotor(arr,theta){
 			if (arr.length>1){obj.y=arr[1];}
 			if (arr.length>2){obj.z=arr[2];}
 		}
-		else if (typeof(arr)=='object'){obj=arr;}
+		else if (typeof(arr)=='object'){obj=vecCopy(arr);}
 		else if (typeof(arr)=='number'){obj.x=arr;}
 	}
 	if(theta){return new Quaternion(obj,theta);}
@@ -315,11 +315,47 @@ function quatTomat(rotQ){
 	const xx=2*rotQ.im.x*rotQ.im.x;const yy=2*rotQ.im.y*rotQ.im.y;const zz=2*rotQ.im.z*rotQ.im.z
 	const xw=2*rotQ.im.x*rotQ.re;  const yw=2*rotQ.im.y*rotQ.re;  const zw=2*rotQ.im.z*rotQ.re
 	return ([
-		[1-yy-zz,xy-zw  ,xz+yw   ,0],
-		[xy+zw  ,1-xx-zz,yz-xw   ,0],
-		[xz-yw  ,yz+xw  ,1-xx-yy ,0],
-		[0      ,0      ,0       ,1]
+		[1-yy-zz,   xy+zw,   xz-yw, 0],
+		[  xy-zw, 1-xx-zz,   yz+xw, 0],
+		[  xz+yw,   yz-xw, 1-xx-yy, 0],
+		[0      , 0      , 0       ,1]
 	]);
+}
+function navals(R){
+	let roll,yaw,pitch;
+	const x1=R[0][0];
+	const y1=R[1][0];
+	const z1=R[2][0];
+	//
+	const x2=R[0][1];
+	const y2=R[1][1];
+	const z2=R[2][1];
+	//
+	const x3=R[0][2];
+	const y3=R[1][2];
+	const z3=R[2][2];
+	pitch=Math.round(Math.asin(-x3)*Math.pow(10,6))*Math.pow(10,-6);
+	if(x3*x3<0.999){//==>cy!=0
+		roll=Math.atan2(y3,z3);
+		yaw=Math.atan2(x2,x1);
+	}
+	else{
+		roll=Math.acos((z1+y2)/(1-x3))||Math.asin((z2+y1)/(-x3-1))
+		yaw=0;
+	}
+	roll=Math.round(roll*Math.pow(10,6))*Math.pow(10,-6);
+	yaw=Math.round(yaw*Math.pow(10,6))*Math.pow(10,-6);
+	return(Rotor([roll,pitch,yaw]));
+}
+function  Mat2AxisAngle(M){
+	let u=vec3(
+		M[1][2]-M[2][1],
+		M[2][0]-M[0][2],
+		M[0][1]-M[1][0]
+	)
+	let ang=Math.atan2(vecMag(u),(trace(M)-2));
+	u=vecNormalize(u);
+	return {axis:u,angle:ang};
 }
 //------------
 function processPoints(arrpt,origin,rotor,pivot,plane,xdir,trans,digi){

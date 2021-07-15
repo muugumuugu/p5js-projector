@@ -119,8 +119,8 @@ function vecDist(v1,v2){
 //____________________
 function vecScale(dat,k){
 	let vArr;
-	if(!k){k=1;}
-	if (Array.isArray(dat)){vArr=[...dat];}
+	if(k==null){k=1;}
+	if (Array.isArray(dat)){vArr=arrCopy(dat);}
 	else{vArr=vec2arr(dat);}
 	return arr2vec(scaledArr(vArr,k));
 }

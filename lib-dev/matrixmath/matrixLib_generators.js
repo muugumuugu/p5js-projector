@@ -106,12 +106,12 @@ function rollpitchyaw(rotor,T){//X then Y then Z., TAIT BRYAN ANGLES
 			c[i]=Math.cos(angs[i])
 			s[i]=Math.sin(angs[i])
 	}
-	temp=([
-		[ c[2]*c[1]	, c[2]*s[1]*s[0] - c[0]*s[2]	  , s[2]*s[0]	   + c[2]*c[0]*s[1] , 0],
-		[ c[1]*s[2] , c[2]*c[0]      + s[2]*s[1]*s[0] , c[0]*s[2]*s[1] - c[2]*s[0]      , 0],
-		[ -s[1]	    , c[1]*s[0]	                      , c[1]*c[0]                       , 0],
-		[  0        , 0                               , 0                               , 1]
-	]);
+	temp=[
+		[ c[2]*c[1]                 ,	s[2]*c[1]                 ,	    -s[1],	0.0],
+		[ c[2]*s[1]*s[0] - c[0]*s[2],	s[2]*s[1]*s[0] + c[2]*c[0],	c[1]*s[0],	0.0],
+		[ c[2]*s[1]*c[0] + s[2]*s[0],	s[2]*s[1]*c[0] - c[2]*s[0],	c[1]*c[0],	0.0],
+		[                        0.0,                          0.0,	      0.0,	1.0]
+	];
 	if(T){return matMult(T,temp)};
 	return temp;
 

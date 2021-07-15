@@ -241,12 +241,12 @@ function rollpitchyaw(rotor,T){//X then Y then Z., TAIT BRYAN ANGLES
 			c[i]=Math.cos(angs[i])
 			s[i]=Math.sin(angs[i])
 	}
-	temp=([
-		[ c[2]*c[1]	, c[2]*s[1]*s[0] - c[0]*s[2]	  , s[2]*s[0]	   + c[2]*c[0]*s[1] , 0],
-		[ c[1]*s[2] , c[2]*c[0]      + s[2]*s[1]*s[0] , c[0]*s[2]*s[1] - c[2]*s[0]      , 0],
-		[ -s[1]	    , c[1]*s[0]	                      , c[1]*c[0]                       , 0],
-		[  0        , 0                               , 0                               , 1]
-	]);
+	temp=[
+		[ c[2]*c[1]                 ,	s[2]*c[1]                 ,	    -s[1],	0.0],
+		[ c[2]*s[1]*s[0] - c[0]*s[2],	s[2]*s[1]*s[0] + c[2]*c[0],	c[1]*s[0],	0.0],
+		[ c[2]*s[1]*c[0] + s[2]*s[0],	s[2]*s[1]*c[0] - c[2]*s[0],	c[1]*c[0],	0.0],
+		[                        0.0,                          0.0,	      0.0,	1.0]
+	];
 	if(T){return matMult(T,temp)};
 	return temp;
 
@@ -640,7 +640,7 @@ function intrinsicM(fx,fy,px,py,skew){
 	if(fx){fx_=fx;fy_=fx;}
 	if(fy){fy_=fy;}
 	//transln
-	if(px){px_=px;py=px_;}
+	if(px){px_=px;py_=px;}
 	if(py){py_=py;}
 	//shear.
 	if(skew){s=skew;}
@@ -673,7 +673,7 @@ function lookAtM(posV,lookPoint,upD){
 	return poseM([vec2arr(xx),vec2arr(yy),vec2arr(zz)],vec2arr(CamC));
 }
 //----------------------------------------------
-function Camera(intrinsic,extrinsic){//POST MULTIPLIER
+function Camera(intrinsic,extrinsic){////PRE MULTIPLIER
 	let int_=intrinsicM();
 	let ext_=poseM();
 	if (intrinsic){int_=intrinsic;}
@@ -697,6 +697,7 @@ function decomposeCam(camMatrix){
 	scaleMatrix(posn,-1);
 	let res={ROT:decomp.Q,INTRINSIC:decomp.R,POS:posn[0]}
 	if(scene.cam){scene.camComponents=res;}
+	transpose(camMatrix);//restore.
 	return res;
 }
 //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

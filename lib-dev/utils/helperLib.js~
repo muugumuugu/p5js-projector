@@ -224,7 +224,7 @@ function navals(R){
 	}
 	roll=Math.round(roll*Math.pow(10,6))*Math.pow(10,-6);
 	yaw=Math.round(yaw*Math.pow(10,6))*Math.pow(10,-6);
-	return(Rotor([roll,pitch,yaw]));
+	return(vec3(roll,pitch,yaw));
 }
 function  Mat2AxisAngle(M){
 	let u=vec3(
